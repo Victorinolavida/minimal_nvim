@@ -1,7 +1,6 @@
-require("theprimeagen.set")
-require("theprimeagen.remap")
-require("theprimeagen.lazy_init")
-
+require("victorino.set")
+require("victorino.remap")
+require("victorino.lazy_init")
 
 local augroup = vim.api.nvim_create_augroup
 local ThePrimeagenGroup = augroup('ThePrimeagen', {})
