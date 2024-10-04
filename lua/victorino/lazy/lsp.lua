@@ -51,7 +51,6 @@ return {
                     })
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
-
                 end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
@@ -69,7 +68,11 @@ return {
                 end,
             }
         })
-
+        -- - Define diagnostic signs
+        vim.fn.sign_define("DiagnosticSignError", {text = "✘", numhl = "DiagnosticError"})
+        vim.fn.sign_define("DiagnosticSignWarn", {text = "▲", numhl = "DiagnosticWarn"})
+        vim.fn.sign_define("DiagnosticSignInfo", {text = "ℹ", numhl = "DiagnosticInfo"})
+        vim.fn.sign_define("DiagnosticSignHint", {text = "⚑", numhl = "DiagnosticHint"})
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
@@ -92,7 +95,9 @@ return {
             })
         })
 
+
         vim.diagnostic.config({
+            virtual_text = false,
             -- update_in_insert = true,
             float = {
                 focusable = false,
@@ -103,5 +108,6 @@ return {
                 prefix = "",
             },
         })
+
     end
 }
