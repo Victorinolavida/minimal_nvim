@@ -69,10 +69,10 @@ return {
             }
         })
         -- - Define diagnostic signs
-        vim.fn.sign_define("DiagnosticSignError", {text = "✘", numhl = "DiagnosticError"})
-        vim.fn.sign_define("DiagnosticSignWarn", {text = "▲", numhl = "DiagnosticWarn"})
-        vim.fn.sign_define("DiagnosticSignInfo", {text = "ℹ", numhl = "DiagnosticInfo"})
-        vim.fn.sign_define("DiagnosticSignHint", {text = "⚑", numhl = "DiagnosticHint"})
+        vim.fn.sign_define("DiagnosticSignError", { text = "✘", numhl = "DiagnosticError" })
+        vim.fn.sign_define("DiagnosticSignWarn", { text = "▲", numhl = "DiagnosticWarn" })
+        vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", numhl = "DiagnosticInfo" })
+        vim.fn.sign_define("DiagnosticSignHint", { text = "⚑", numhl = "DiagnosticHint" })
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
@@ -97,7 +97,13 @@ return {
 
 
         vim.diagnostic.config({
-            virtual_text = false,
+            -- virtual_text = false,
+            virtual_text = {
+                prefix = ">>",
+                spacing = 2,
+                position = "eol",
+            },
+            underline = true,
             -- update_in_insert = true,
             float = {
                 focusable = false,
@@ -108,6 +114,5 @@ return {
                 prefix = "",
             },
         })
-
     end
 }
