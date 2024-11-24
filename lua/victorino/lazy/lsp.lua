@@ -29,6 +29,14 @@ return {
                 "lua_ls",
                 "rust_analyzer",
                 "gopls",
+                "cssls",
+                "eslint",
+                "jsonls",
+                "css_variables",
+                "tailwindcss",
+                "ts_ls",
+                "prismals",
+                "golangci_lint_ls",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
