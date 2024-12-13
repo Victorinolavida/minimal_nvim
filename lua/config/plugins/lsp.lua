@@ -1,6 +1,8 @@
+
 return {
-    "neovim/nvim-lspconfig",
-    dependencies = {
+  "neovim/nvim-lspconfig",
+  dependencies = {
+  "stevearc/conform.nvim",
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
@@ -11,9 +13,12 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-    },
-
-    config = function()
+},
+config = function()
+  require("conform").setup({
+            formatters_by_ft = {
+            }
+        })
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -44,22 +49,6 @@ return {
                         capabilities = capabilities
                     }
                 end,
-
-                zls = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.zls.setup({
-                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-                        settings = {
-                            zls = {
-                                enable_inlay_hints = true,
-                                enable_snippets = true,
-                                warn_style = true,
-                            },
-                        },
-                    })
-                    vim.g.zig_fmt_parse_errors = 0
-                    vim.g.zig_fmt_autosave = 0
-                end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
@@ -76,11 +65,7 @@ return {
                 end,
             }
         })
-        -- - Define diagnostic signs
-        vim.fn.sign_define("DiagnosticSignError", { text = "✘", numhl = "DiagnosticError" })
-        vim.fn.sign_define("DiagnosticSignWarn", { text = "▲", numhl = "DiagnosticWarn" })
-        vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", numhl = "DiagnosticInfo" })
-        vim.fn.sign_define("DiagnosticSignHint", { text = "⚑", numhl = "DiagnosticHint" })
+
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
@@ -103,15 +88,7 @@ return {
             })
         })
 
-
         vim.diagnostic.config({
-            -- virtual_text = false,
-            virtual_text = {
-                prefix = ">>",
-                spacing = 2,
-                position = "eol",
-            },
-            underline = true,
             -- update_in_insert = true,
             float = {
                 focusable = false,
@@ -122,5 +99,5 @@ return {
                 prefix = "",
             },
         })
-    end
-}
+    end}
+
