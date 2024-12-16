@@ -4,6 +4,8 @@ require("config.remap")
 
 local autogroup = vim.api.nvim_create_augroup("config", {})
 local autocmd = vim.api.nvim_create_autocmd
+-- config colorscheme
+vim.cmd("colorscheme gruvbox")
 
 vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
