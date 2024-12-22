@@ -15,16 +15,15 @@ return {
 
         for i = 1, 5 do
             local commandSelect = string.format("<leader>b%d", i)
-            local commandReplace = string.format("<leader>br%d",i)
+            local commandReplace = string.format("<leader>br%d", i)
             -- Go to buffer 1
             vim.keymap.set("n", commandSelect, function()
                 harpoon:list():select(i)
-            end,{desc = string.format("Select [B]uffer %d",i)})
+            end, { desc = string.format("Select [B]uffer %d", i) })
             -- replace buffer i
             vim.keymap.set("n", commandReplace, function()
                 harpoon:list():replace_at(i)
-            end,{desc = string.format("[R]eplace [B]uffer %d",i)})
+            end, { desc = string.format("[R]eplace [B]uffer %d", i) })
         end
     end
 }
-

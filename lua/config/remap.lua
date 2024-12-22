@@ -24,7 +24,7 @@ vim.keymap.set(
 )
 
 -- format
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "[f]ormat" })
+vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "[f]ormat" })
 
 -- yank selection to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
