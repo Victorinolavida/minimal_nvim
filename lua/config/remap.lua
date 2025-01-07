@@ -3,11 +3,11 @@ local opts = { noremap = true, silent = true }
 
 vim.g.mapleader = " "
 
--- Explorer 
--- vim.cmd.Ex() 
-vim.keymap.set("n", "<leader>pv", function ()
-    vim.cmd("Ex")
-end , { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
+-- Explorer
+-- vim.cmd.Ex()
+vim.keymap.set("n", "<leader>pv", function()
+    vim.cmd("NvimTreeToggle")
+end, { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
 
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G", { noremap = true, desc = "Select all" })
@@ -16,12 +16,7 @@ vim.keymap.set("n", "<C-a>", "gg<S-v>G", { noremap = true, desc = "Select all" }
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Error go
-vim.keymap.set(
-    "n",
-    "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>",
-    { desc = "[e]rror golang" }
-)
+vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>", { desc = "[e]rror golang" })
 
 -- format
 vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "[f]ormat" })
@@ -30,12 +25,12 @@ vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "[f]ormat" })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 --yank current line to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]])
--- delete without yanking 
+-- delete without yanking
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 -- paste from clipboard
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
--- restart lsp 
+-- restart lsp
 vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
 -- move lines

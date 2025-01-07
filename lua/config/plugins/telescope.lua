@@ -1,14 +1,23 @@
 return {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.5",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "folke/trouble.nvim",
+    },
     config = function()
+        --config  trouble
+        local actions = require("telescope.actions")
+        local trouble = require("trouble.sources.telescope")
         require('telescope').setup({
-
             defaults = {
                 ignore_patterns = {
                     "node_modules", --ignore node_modules
                 },
+                mappings = {
+                    i = { ["<c-t>"] = trouble.open },
+                    n = { ["<c-t>"] = trouble.open },
+                }
             }
         })
 
@@ -34,7 +43,7 @@ return {
         vim.keymap.set('n', '<leader>fa',
             ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs,--no-ignore,--follow,--glob,!.git,--glob,!node_modules,--glob,!tmp,--glob,!build<CR>",
             { desc = "Find Files .env" })
-        vim.keymap.set('n', '<leader>lg', function()
+        vim.keymap.set('n', '<leader>fl', function()
             builtin.live_grep({
                 -- prompt_title = "Live Grep",
                 -- search = vim.fn.input("Grep > "),

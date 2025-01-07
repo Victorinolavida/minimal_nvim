@@ -1,8 +1,7 @@
-
 return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-  "stevearc/conform.nvim",
+    "neovim/nvim-lspconfig",
+    dependencies = {
+        "stevearc/conform.nvim",
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
@@ -10,12 +9,18 @@ return {
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
-        "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-},
-config = function()
-  require("conform").setup({
+
+        "hrsh7th/cmp-buffer",       -- source for text in buffer
+        "hrsh7th/cmp-path",         -- source for file system paths
+        "L3MON4D3/LuaSnip",         -- snippet engine
+        "saadparwaiz1/cmp_luasnip", -- for autocompletion
+        "rafamadriz/friendly-snippets", -- useful snippets
+        "onsails/lspkind.nvim",
+    },
+    config = function()
+        require("conform").setup({
             formatters_by_ft = {
             }
         })
@@ -99,5 +104,5 @@ config = function()
                 prefix = "",
             },
         })
-    end}
-
+    end
+}
