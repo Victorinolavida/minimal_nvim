@@ -32,6 +32,7 @@ return {
 						".gitkeep",
 						".gitlab-ci.yml",
 						".gitlab",
+						"__pycache__",
 					},
 				},
 			},
@@ -54,7 +55,21 @@ return {
 				enable = true,
 			},
 			filesystem_watchers = {
-				ignore_dirs = { "node_modules" },
+				ignore_dirs = {
+					"node_modules",
+					".git",
+					".cache",
+					".vscode",
+					".idea",
+					".DS_Store",
+					".gitignore",
+					".gitattributes",
+					".gitmodules",
+					".gitkeep",
+					".gitlab-ci.yml",
+					".gitlab",
+					"__pycache__",
+				},
 			},
 
 			renderer = {
@@ -84,7 +99,7 @@ return {
 							untracked = "", -- Archivo no trackeado
 							ignored = "", -- Archivo ignorado por .gitignore
 							staged = "", -- Archivo en stage listo para commit
-                            unmerged = "",
+							unmerged = "",
 							-- conflict = "", -- Conflicto de merge
 						},
 					},

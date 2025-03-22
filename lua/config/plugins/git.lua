@@ -12,13 +12,14 @@ return {
             vim.keymap.set("n", "<leader>gd", ":Git diff<CR>", { noremap = true, silent = true, desc = "Git Diff" })
             vim.keymap.set("n", "<leader>gD", ":Gitsigns diffthis<CR>", { noremap = true, silent = true, desc = "Git Diff This" })
 
-            vim.keymap.set("n", "<leader>gl", ":Glog<CR>", { noremap = true, silent = true, desc = "Git Log" })
+            vim.keymap.set("n", "<leader>gl", ":Gllog<CR>", { noremap = true, silent = true, desc = "Git Log" })
 
             vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { noremap = true, silent = true, desc = "Git Commit" })
             --
             -- vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { noremap = true, silent = true, desc = "Git Commit" })
             -- vim.keymap.set("n", "<leader>gp", ":Git push<CR>", { noremap = true, silent = true, desc = "Git Push" })
-            -- vim.keymap.set("n", "<leader>gl", ":Git pull<CR>", { noremap = true, silent = true, desc = "Git Pull" })
+            vim.keymap.set("n", "<leader>gp", ":Git pull<CR>", { noremap = true, silent = true, desc = "Git Pull" })
+            vim.keymap.set("n", "<leader>ga", ":Git add .<CR>", { noremap = true, silent = true, desc = "Git Add All" })
             --
             -- vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { noremap = true, silent = true, desc = "Git Blame" })
             -- vim.keymap.set("n", "<leader>gw", ":Gwrite<CR>", { noremap = true, silent = true, desc = "Git Write" })
