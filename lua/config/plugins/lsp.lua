@@ -51,7 +51,6 @@ return {
 
         capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
         capabilities.workspace.fileOperations = false -- Disable unnecessary file operations
-    
 
         require("fidget").setup({})
         require("mason").setup()
@@ -62,7 +61,7 @@ return {
                 "gopls",
                 "cssls",
                 "eslint",
-                "eslint_d",
+                -- "eslint_d",
                 "jsonls",
                 "css_variables",
                 "tailwindcss",
