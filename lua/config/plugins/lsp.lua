@@ -5,13 +5,9 @@ return {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
-        "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-
         "hrsh7th/cmp-buffer",       -- source for text in buffer
         "hrsh7th/cmp-path",         -- source for file system paths
         "L3MON4D3/LuaSnip",         -- snippet engine
@@ -22,6 +18,27 @@ return {
     config = function()
         require("conform").setup({
             formatters_by_ft = {
+                javascript = { "eslint_d" },
+                javascriptreact = { "eslint_d" },
+                typescript = { "eslint_d" },
+                typescriptreact = { "eslint_d" },
+                lua = { "stylua" },
+                go = { "gofmt", "gofumpt" },
+
+                -- javascript = { "eslint_d" },
+                -- typescript = { "eslint_d" },
+                -- javascriptreact = { "eslint_d" },
+                -- typescriptreact = { "eslint_d" },
+                svelte = { "prettier" },
+                css = { "prettier" },
+                html = { "prettier" },
+                json = { "prettier" },
+                golang = { "golines" },
+                yaml = { "prettier" },
+                markdown = { "prettier" },
+                graphql = { "prettier" },
+                -- lua = { "stylua" },
+                python = { "isort", "black" },
             }
         })
         local cmp = require('cmp')
@@ -32,6 +49,10 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
 
+        capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+        capabilities.workspace.fileOperations = false -- Disable unnecessary file operations
+    
+
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
@@ -41,6 +62,7 @@ return {
                 "gopls",
                 "cssls",
                 "eslint",
+                "eslint_d",
                 "jsonls",
                 "css_variables",
                 "tailwindcss",
