@@ -6,7 +6,7 @@ local autogroup = vim.api.nvim_create_augroup("config", {})
 local autocmd = vim.api.nvim_create_autocmd
 -- config colorscheme
 vim.cmd("colorscheme gruvbox")
-/*
+--[[
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
 	command = "silent! EsLintFixAll",
@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	command = "silent! GoFmt",
 	group = vim.api.nvim_create_augroup("gofmt", {}),
 })
-*/
+--]]
 autocmd("LspAttach", {
 	group = autogroup,
 	callback = function(e)

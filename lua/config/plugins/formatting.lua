@@ -1,4 +1,4 @@
-/* return {
+--[[ return {
 	"stevearc/conform.nvim",
 	lazy = true,
 	event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
@@ -38,5 +38,5 @@
 		end, { desc = "Format file or range (in visual mode)" })
 	end,
 }
-*/
+--]]
 return {}
