@@ -13,11 +13,16 @@ return {
             defaults = {
                 ignore_patterns = {
                     "node_modules", --ignore node_modules
-                     "__pycache__",
-                     ".git",
-                     ".hg",
-                     ".svn",
-                     ".idea",
+                    "__pycache__",
+                    ".git",
+                    ".hg",
+                    ".svn",
+                    ".idea",
+                    ".git",
+                    "dist",
+                    "build",
+                    ".next",
+                    ".vscode",
                 },
                 mappings = {
                     i = { ["<c-t>"] = trouble.open },
