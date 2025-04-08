@@ -8,27 +8,23 @@ return {
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "j-hui/fidget.nvim",
-        "hrsh7th/cmp-buffer",       -- source for text in buffer
-        "hrsh7th/cmp-path",         -- source for file system paths
-        "L3MON4D3/LuaSnip",         -- snippet engine
-        "saadparwaiz1/cmp_luasnip", -- for autocompletion
+        "hrsh7th/cmp-buffer",           -- source for text in buffer
+        "hrsh7th/cmp-path",             -- source for file system paths
+        "L3MON4D3/LuaSnip",             -- snippet engine
+        "saadparwaiz1/cmp_luasnip",     -- for autocompletion
         "rafamadriz/friendly-snippets", -- useful snippets
         "onsails/lspkind.nvim",
     },
     config = function()
         require("conform").setup({
+            log_level = vim.log.levels.DEBUG,
             formatters_by_ft = {
-                javascript = { "eslint_d" },
-                javascriptreact = { "eslint_d" },
-                typescript = { "eslint_d" },
-                typescriptreact = { "eslint_d" },
+                -- javascriptreact = { "eslint_d" },
+                -- typescript = { "eslint_d" },
+                -- javascript = { "eslint_d" },
+                -- typescriptreact = { "eslint_d" },
                 lua = { "stylua" },
                 go = { "gofmt", "gofumpt" },
-
-                -- javascript = { "eslint_d" },
-                -- typescript = { "eslint_d" },
-                -- javascriptreact = { "eslint_d" },
-                -- typescriptreact = { "eslint_d" },
                 svelte = { "prettier" },
                 css = { "prettier" },
                 html = { "prettier" },
@@ -37,10 +33,25 @@ return {
                 yaml = { "prettier" },
                 markdown = { "prettier" },
                 graphql = { "prettier" },
-                -- lua = { "stylua" },
                 python = { "isort", "black" },
+                typescript = { { "prettierd", "prettier", "eslint_d" } },
+                typescriptreact = { { "prettierd", "prettier", "eslint_d" } },
+                javascript = { { "prettierd", "prettier", "eslint_d" } },
+                javascriptreact = { { "prettierd", "prettier", "eslint_d" } },
             }
         })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            -- pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+            -- command = "silent! Conform",
+            -- group = vim.api.nvim_create_augroup("conform", {}),
+            pattern = "*",
+            callback = function(args)
+                vim.lsp.buf.format({ bufnr = args.buf, lsp_fallback = true })
+            end,
+        })
+        vim.api.nvim_set_keymap("n", "<leader>f", ":lua vim.lsp.buf.format({ lsp_fallback = true })<CR>",
+            { noremap = true, silent = true })
+
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -49,8 +60,8 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
 
-        capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
-        capabilities.workspace.fileOperations = false -- Disable unnecessary file operations
+        -- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+        -- capabilities.workspace.fileOperations = false -- Disable unnecessary file operations
 
         require("fidget").setup({})
         require("mason").setup()
