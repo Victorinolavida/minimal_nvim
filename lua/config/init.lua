@@ -5,11 +5,11 @@ require("config.remap")
 local autogroup = vim.api.nvim_create_augroup("config", {})
 local autocmd = vim.api.nvim_create_autocmd
 
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
---     command = "silent! EsLintFixAll",
---     group = vim.api.nvim_create_augroup("eslint", {}),
--- })
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+    command = "silent! EsLintFixAll",
+    group = vim.api.nvim_create_augroup("eslint", {}),
+})
 --
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --     pattern = { "*.go" },

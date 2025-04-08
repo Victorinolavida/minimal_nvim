@@ -5,9 +5,9 @@ vim.g.mapleader = " "
 
 -- Explorer
 -- vim.cmd.Ex()
-vim.keymap.set("n", "<leader>pv", function()
-    vim.cmd("NvimTreeToggle")
-end, { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
+-- vim.keymap.set("n", "<leader>pv", function()
+--     vim.cmd("NvimTreeToggle")
+-- end, { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
 
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G", { noremap = true, desc = "Select all" })
