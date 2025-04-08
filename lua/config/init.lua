@@ -5,25 +5,19 @@ require("config.remap")
 local autogroup = vim.api.nvim_create_augroup("config", {})
 local autocmd = vim.api.nvim_create_autocmd
 
--- Add to your LSP config
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = function()
-        vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
-    end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+--     command = "silent! EsLintFixAll",
+--     group = vim.api.nvim_create_augroup("eslint", {}),
+-- })
+--
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     pattern = { "*.go" },
+--     command = "silent! GoFmt",
+--     group = vim.api.nvim_create_augroup("gofmt", {}),
+-- })
+-- vim. api.nvim_create_autocmd("BufWritePre", { callback = function() vim.lsp.buf.format() end })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-    command = "silent! EsLintFixAll",
-    group = vim.api.nvim_create_augroup("eslint", {}),
-})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.go" },
-    command = "silent! GoFmt",
-    group = vim.api.nvim_create_augroup("gofmt", {}),
-})
 
 autocmd("LspAttach", {
     group = autogroup,
