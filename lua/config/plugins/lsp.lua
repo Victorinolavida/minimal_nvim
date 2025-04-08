@@ -49,6 +49,9 @@ return {
                 vim.lsp.buf.format({ bufnr = args.buf, lsp_fallback = true })
             end,
         })
+        vim.api.nvim_set_keymap("n", "<leader>f", ":lua vim.lsp.buf.format({ lsp_fallback = true })<CR>",
+            { noremap = true, silent = true })
+
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
