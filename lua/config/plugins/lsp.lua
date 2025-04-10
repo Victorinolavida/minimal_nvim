@@ -16,13 +16,15 @@ return {
         "onsails/lspkind.nvim",
     },
     config = function()
-        require("conform").setup({
+        local conform = require("conform")
+        conform.setup({
             log_level = vim.log.levels.DEBUG,
+            format_on_save = {
+                lsp_fallback = true,
+                timeout_ms = 500,
+                stop_after_first = true,
+            },
             formatters_by_ft = {
-                -- javascriptreact = { "eslint_d" },
-                -- typescript = { "eslint_d" },
-                -- javascript = { "eslint_d" },
-                -- typescriptreact = { "eslint_d" },
                 lua = { "stylua" },
                 go = { "gofmt", "gofumpt" },
                 svelte = { "prettier" },
@@ -34,23 +36,13 @@ return {
                 markdown = { "prettier" },
                 graphql = { "prettier" },
                 python = { "isort", "black" },
-                typescript = { { "prettierd", "prettier", "eslint_d" } },
-                typescriptreact = { { "prettierd", "prettier", "eslint_d" } },
-                javascript = { { "prettierd", "prettier", "eslint_d" } },
-                javascriptreact = { { "prettierd", "prettier", "eslint_d" } },
+                typescript = { "eslint_d", "prettierd", "prettier" },
+                typescriptreact = { "eslint_d", "prettierd", "prettier" },
+                javascript = { "eslint_d", "prettierd", "prettier" },
+                javascriptreact = { "eslint_d", "prettierd", "prettier" },
+                ["_"] = { "trim_whitespace" },
             }
         })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            -- pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-            -- command = "silent! Conform",
-            -- group = vim.api.nvim_create_augroup("conform", {}),
-            pattern = "*",
-            callback = function(args)
-                vim.lsp.buf.format({ bufnr = args.buf, lsp_fallback = true })
-            end,
-        })
-        vim.api.nvim_set_keymap("n", "<leader>f", ":lua vim.lsp.buf.format({ lsp_fallback = true })<CR>",
-            { noremap = true, silent = true })
 
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
@@ -76,7 +68,7 @@ return {
                 "jsonls",
                 "css_variables",
                 "tailwindcss",
-                "ts_ls",
+                -- "ts_ls",
                 "prismals",
                 "golangci_lint_ls",
             },
@@ -99,6 +91,14 @@ return {
                             }
                         }
                     }
+                end,
+                ["eslint"] = function()
+                    require("lspconfig").eslint.setup({
+                        capabilities = capabilities,
+                        on_attach = function(client)
+                            client.server_capabilities.definitionProvider = false
+                        end
+                    })
                 end,
             }
         })
