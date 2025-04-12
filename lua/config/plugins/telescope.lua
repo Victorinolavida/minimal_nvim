@@ -50,23 +50,93 @@ return {
 			builtin.grep_string({ search = vim.fn.input("Grep > ") })
 		end, { desc = "find files with grep" })
 
+		-- ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs,--no-ignore,--follow,--glob,!.git,--glob,!node_modules,--glob,!tmp,--glob,!build<CR>",
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
-		vim.keymap.set(
-			"n",
-			"<leader>fa",
-			":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs,--no-ignore,--follow,--glob,!.git,--glob,!node_modules,--glob,!tmp,--glob,!build<CR>",
-			{ desc = "Find Files .env" }
-		)
+		vim.keymap.set("n", "<leader>fa", function()
+			builtin.find_files({
+				find_command = {
+					"rg",
+					"--files",
+					"--hidden",
+					"--no-ignore-vcs",
+					"--no-ignore",
+					"--follow",
+					"--glob",
+					"!.git",
+					"--glob",
+					"!node_modules",
+					"--glob",
+					"!tmp",
+					"--glob",
+					"!build",
+					"--glob",
+					"!.devbox",
+					"--glob",
+					"!__pycache__",
+					"--glob",
+					"!dist",
+					"--glob",
+					"!.next",
+					"--glob",
+					"!.idea",
+				},
+			})
+		end, { desc = "Find Files .env" })
 		vim.keymap.set("n", "<leader>fl", function()
 			builtin.live_grep({
-				-- prompt_title = "Live Grep",
-				-- search = vim.fn.input("Grep > "),
-				-- only_sort_text = true,
-				-- layout_strategy = "vertical",
-				-- layout_config = {
-				--     width = 0.9,
-				--     height = 0.9,
-				-- },
+				only_sort_text = true,
+				layout_strategy = "vertical",
+				layout_config = {
+					width = 0.9,
+					height = 0.9,
+				},
+				additional_args = function()
+					return {
+						"--hidden",
+						"--no-ignore-vcs",
+						"--no-ignore",
+						"--glob",
+						"!.git",
+						"--glob",
+						"!node_modules",
+						"--glob",
+						"!tmp",
+						"--glob",
+						"!build",
+						"--glob",
+						"!dist",
+						"--glob",
+						"!out",
+						"--glob",
+						"!.devbox",
+						"--glob",
+						"!__pycache__",
+						"--glob",
+						"!.venv",
+						"--glob",
+						"!venv",
+						"--glob",
+						"!.next",
+						"--glob",
+						"!.turbo",
+						"--glob",
+						"!.parcel-cache",
+						"--glob",
+						"!.expo",
+						"--glob",
+						"!.expo-shared",
+						"--glob",
+						"!.idea",
+						"--glob",
+						"!.vscode",
+						"--glob",
+						"!coverage",
+						"--glob",
+						"!.sass-cache",
+						"--glob",
+						"!.cache",
+					}
+				end,
 			})
 		end, { desc = "Live Grep" })
 	end,
