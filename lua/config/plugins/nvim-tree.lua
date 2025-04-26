@@ -16,6 +16,7 @@ return {
 				update_cwd = true,
 				ignore_list = {},
 			},
+			view = { adaptive_size = true },
 
 			actions = {
 				expand_all = {
@@ -50,6 +51,7 @@ return {
 			},
 
 			filters = {
+				-- dotfiles = true,
 				custom = { "^.git$" },
 			},
 			git = {
@@ -75,7 +77,7 @@ return {
 			},
 
 			renderer = {
-				root_folder_label = false,
+				root_folder_label = true,
 				highlight_git = true,
 				indent_markers = { enable = true },
 				icons = {

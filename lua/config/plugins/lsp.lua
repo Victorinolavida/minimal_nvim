@@ -14,6 +14,7 @@ return {
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"rafamadriz/friendly-snippets", -- useful snippets
 		"onsails/lspkind.nvim",
+		"sublimelsp/LSP-eslint",
 	},
 	config = function()
 		local conform = require("conform")
@@ -21,7 +22,7 @@ return {
 			log_level = vim.log.levels.DEBUG,
 			format_on_save = {
 				lsp_fallback = true,
-				timeout_ms = 500,
+				timeout_ms = 1500,
 				stop_after_first = true,
 			},
 			formatters_by_ft = {
