@@ -3,12 +3,6 @@ local opts = { noremap = true, silent = true }
 
 vim.g.mapleader = " "
 
--- Explorer
--- vim.cmd.Ex()
--- vim.keymap.set("n", "<leader>pv", function()
---     vim.cmd("NvimTreeToggle")
--- end, { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
-
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G", { noremap = true, desc = "Select all" })
 
@@ -34,8 +28,8 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
 -- move lines
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -54,3 +48,7 @@ vim.keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 -- split window
 vim.keymap.set("n", "ss", ":split<Return>", opts)
 vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
+
+-- re-size window
+vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
+vim.keymap.set("n", "<leader><", "<C-w><", opts)

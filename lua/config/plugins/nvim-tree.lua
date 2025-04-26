@@ -16,6 +16,7 @@ return {
 				update_cwd = true,
 				ignore_list = {},
 			},
+			view = { adaptive_size = true },
 
 			actions = {
 				expand_all = {
@@ -50,6 +51,7 @@ return {
 			},
 
 			filters = {
+				-- dotfiles = true,
 				custom = { "^.git$" },
 			},
 			git = {
