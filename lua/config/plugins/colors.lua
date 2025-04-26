@@ -31,7 +31,8 @@ return {
 			AARRGGBB = false, -- 0xAARRGGBB hex codes
 			rgb_fn = false, -- CSS rgb() and rgba() functions
 			hsl_fn = false, -- CSS hsl() and hsla() functions
-			css = false, -- Enable all CSS *features*:
+			-- css = false, -- Enable all CSS *features*:
+			css = true,
 			-- names, RGB, RGBA, RRGGBB, RRGGBBAA, AARRGGBB, rgb_fn, hsl_fn
 			css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
 			-- Tailwind colors.  boolean|'normal'|'lsp'|'both'.  True sets to 'normal'
@@ -57,6 +58,16 @@ return {
 				-- called before line parsing.  Accepts boolean or function that returns boolean
 				-- see hooks section below
 				disable_line_highlight = false,
+				filetypes = { -- filetypes to disable line highlight
+					"help",
+					"markdown",
+					"txt",
+					"lua",
+					"gitcommit",
+					"gitrebase",
+					"svn",
+					"hgcommit",
+				},
 			},
 		},
 	},

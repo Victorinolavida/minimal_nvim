@@ -16,9 +16,9 @@ return {
 				{ "javascript", "javascriptreact", "typescript", "typescriptreact" }
 			)
 			require("luasnip.loaders.from_vscode").lazy_load()
-            -- now for golang 
-            require("luasnip").filetype_extend("go", { "go" })
-            require("luasnip").filetype_extend("javascript", { "jsdoc", "react", "js" })
+			-- now for golang
+			require("luasnip").filetype_extend("go", { "go" })
+			require("luasnip").filetype_extend("javascript", { "jsdoc", "react", "js" })
 
 			-- ls.filetype_extend("javascript", { "jsdoc", "react" , "js"})
 			-- ls.filetype_extend("typescript", { "jsdoc" })
@@ -29,8 +29,12 @@ return {
 			-- --- TODO: What is expand?
 			-- vim.keymap.set({"i"}, "<C-s>e", function() ls.expand() end, {silent = true})
 			--
-			vim.keymap.set({"i", "s"}, "<C-s>;", function() ls.jump(1) end, {silent = true})
-			vim.keymap.set({"i", "s"}, "<C-s>,", function() ls.jump(-1) end, {silent = true})
+			vim.keymap.set({ "i", "s" }, "<C-s>;", function()
+				ls.jump(1)
+			end, { silent = true })
+			vim.keymap.set({ "i", "s" }, "<C-s>,", function()
+				ls.jump(-1)
+			end, { silent = true })
 			--
 			-- vim.keymap.set({"i", "s"}, "<C-E>", function()
 			--     if ls.choice_active() then

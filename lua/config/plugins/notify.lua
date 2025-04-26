@@ -19,7 +19,10 @@ return {
 			focusable = false,
 			anchor = "SW",
 			row = 0,
+			width = 50,
+			timeout = 300,
 			col = 1,
+			compact = true,
 			position = "top",
 		}
 
