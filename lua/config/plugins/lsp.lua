@@ -15,6 +15,7 @@ return {
 		"rafamadriz/friendly-snippets", -- useful snippets
 		"onsails/lspkind.nvim",
 		"sublimelsp/LSP-eslint",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
 		local conform = require("conform")
@@ -24,6 +25,9 @@ return {
 				lsp_fallback = true,
 				timeout_ms = 1500,
 				stop_after_first = true,
+			},
+			format = {
+				async = true,
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
@@ -82,18 +86,28 @@ return {
 
 		require("fidget").setup({})
 		require("mason").setup()
+		local mason_tool_installer = require("mason-tool-installer")
+
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"lua_ls",
-				"rust_analyzer",
+				-- "rust_analyzer",
 				"gopls",
 				"cssls",
 				"eslint",
 				"jsonls",
 				"css_variables",
 				"tailwindcss",
-				"prismals",
+				-- "prismals",
 				"golangci_lint_ls",
+				"golines",
+				"goimports",
+				"golangci",
+				"golangci_lint_ls",
+
+				"html",
+				"emmet_ls",
+				"pyright",
 			},
 			handlers = {
 				function(server_name) -- default handler (optional)
@@ -131,6 +145,22 @@ return {
 						end,
 					})
 				end,
+			},
+		})
+		mason_tool_installer.setup({
+			ensure_installed = {
+				"prettier", -- prettier formatter
+				"stylua", -- lua formatter
+				"eslint_d", -- js linter
+				"jsonlint", -- json formatter
+				"eslint_d", -- js linter
+				"prettierd", -- prettier formatter
+				"misspell",
+				"staticcheck",
+
+				"golangci-lint",
+				"golangci-lint-langserver",
+				"gofumpt", -- go formatter
 			},
 		})
 
