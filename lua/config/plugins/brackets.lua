@@ -1,17 +1,6 @@
 return {
 	"lukas-reineke/indent-blankline.nvim",
 	main = "ibl",
-	-- opts = {
-	-- 	indent = {
-	-- 		-- char = "┊", -- Puedes cambiar a "┊", "┆", "┇", etc.
-	-- 		char = "│", -- Cambia el carácter de tabulación a "│"
-	-- 	},
-	-- 	scope = {
-	-- 		enabled = true,
-	-- 		show_start = true,
-	-- 		show_end = false,
-	-- 	},
-	-- },
 	config = function()
 		local highlight = {
 			"RainbowRed",
