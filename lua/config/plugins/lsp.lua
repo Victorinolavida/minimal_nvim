@@ -31,7 +31,7 @@ return {
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
-				go = { "gofmt", "gofumpt" },
+				go = { "goimports", "gofumpt", "golines" },
 				svelte = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
@@ -100,11 +100,6 @@ return {
 				"tailwindcss",
 				-- "prismals",
 				"golangci_lint_ls",
-				"golines",
-				"goimports",
-				"golangci",
-				"golangci_lint_ls",
-
 				"html",
 				"emmet_ls",
 				"pyright",
@@ -137,30 +132,33 @@ return {
 						end,
 					})
 				end,
-				["python"] = function()
-					require("lspconfig").pylsp.setup({
+				["pyright"] = function()
+					require("lspconfig").pyright.setup({
 						capabilities = capabilities,
-						on_attach = function(client)
-							client.server_capabilities.definitionProvider = false
-						end,
 					})
 				end,
 			},
 		})
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettier", -- prettier formatter
-				"stylua", -- lua formatter
-				"eslint_d", -- js linter
-				"jsonlint", -- json formatter
-				"eslint_d", -- js linter
-				"prettierd", -- prettier formatter
-				"misspell",
-				"staticcheck",
+				-- JS / TS / Web
+				"prettier",
+				"prettierd",
+				"eslint_d",
+				"jsonlint",
 
+				-- Lua
+				"stylua",
+
+				-- Go
+				"gofumpt",
+				"golines",
+				"goimports",
+				"staticcheck",
 				"golangci-lint",
-				"golangci-lint-langserver",
-				"gofumpt", -- go formatter
+
+				-- General
+				"misspell",
 			},
 		})
 
