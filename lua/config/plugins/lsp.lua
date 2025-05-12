@@ -137,6 +137,30 @@ return {
 						capabilities = capabilities,
 					})
 				end,
+				["eslint_d"] = function()
+					require("lspconfig").eslint.setup({
+						capabilities = capabilities,
+						on_attach = function(client)
+							client.server_capabilities.definitionProvider = false
+						end,
+					})
+				end,
+				["gopls"] = function()
+					require("lspconfig").gopls.setup({
+						capabilities = capabilities,
+						settings = {
+							gopls = {
+								gofumpt = true,
+								analyses = {
+									unusedparams = true,
+									unusedwriteparams = true,
+									shadow = true,
+									nilness = true,
+								},
+							},
+						},
+					})
+				end,
 			},
 		})
 		mason_tool_installer.setup({
@@ -145,6 +169,7 @@ return {
 				"prettier",
 				"prettierd",
 				"eslint_d",
+				"eslint",
 				"jsonlint",
 
 				-- Lua
