@@ -16,7 +16,7 @@ return {
 				update_cwd = true,
 				ignore_list = {},
 			},
-			view = { adaptive_size = true },
+			view = { adaptive_size = true, relativenumber = true },
 
 			actions = {
 				expand_all = {
