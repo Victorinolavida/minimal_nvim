@@ -36,15 +36,14 @@ return {
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
-				golang = { "golines" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
 				python = { "isort", "black" },
-				typescript = { "eslint_d", "prettierd", "prettier" },
-				typescriptreact = { "eslint_d", "prettierd", "prettier" },
-				javascript = { "eslint_d", "prettierd", "prettier" },
-				javascriptreact = { "eslint_d", "prettierd", "prettier" },
+				typescript = { "prettierd" },
+				typescriptreact = { "prettierd" },
+				javascript = { "prettierd" },
+				javascriptreact = { "prettierd" },
 				["_"] = { "trim_whitespace" },
 			},
 		})
@@ -103,6 +102,9 @@ return {
 				"html",
 				"emmet_ls",
 				"pyright",
+
+				"prettier",
+				"prettierd",
 			},
 			handlers = {
 				function(server_name) -- default handler (optional)
@@ -122,14 +124,6 @@ return {
 								},
 							},
 						},
-					})
-				end,
-				["eslint"] = function()
-					require("lspconfig").eslint.setup({
-						capabilities = capabilities,
-						on_attach = function(client)
-							client.server_capabilities.definitionProvider = false
-						end,
 					})
 				end,
 				["pyright"] = function()
@@ -210,7 +204,7 @@ return {
 		})
 
 		vim.diagnostic.config({
-			-- update_in_insert = true,
+			update_in_insert = true,
 			float = {
 				focusable = false,
 				style = "minimal",
