@@ -6,7 +6,63 @@ return {
 	"catgoose/nvim-colorizer.lua",
 	event = "BufReadPre",
 	opts = {
-		filetypes = { "*" }, -- Filetype options.  Accepts table like `user_default_options`
+		-- filetypes = { "*" }, -- Filetype options.  Accepts table like `user_default_options`
+		filetypes = {
+			-- html
+			"aspnetcorerazor",
+			"astro",
+			"astro-markdown",
+			"blade",
+			"clojure",
+			"django-html",
+			"htmldjango",
+			"edge",
+			"eelixir", -- vim ft
+			"elixir",
+			"ejs",
+			"erb",
+			"eruby", -- vim ft
+			"gohtml",
+			"gohtmltmpl",
+			"haml",
+			"handlebars",
+			"hbs",
+			"html",
+			"htmlangular",
+			"html-eex",
+			"heex",
+			"jade",
+			"leaf",
+			"liquid",
+			"markdown",
+			"mdx",
+			"mustache",
+			"njk",
+			"nunjucks",
+			"php",
+			"razor",
+			"slim",
+			"twig",
+			-- css
+			"css",
+			"less",
+			"postcss",
+			"sass",
+			"scss",
+			"stylus",
+			"sugarss",
+			-- js
+			"javascript",
+			"javascriptreact",
+			"reason",
+			"rescript",
+			"typescript",
+			"typescriptreact",
+			-- mixed
+			"vue",
+			"svelte",
+			"templ",
+		},
 		buftypes = {}, -- Buftype options.  Accepts table like `user_default_options`
 		-- Boolean | List of usercommands to enable.  See User commands section.
 		user_commands = true, -- Enable all or some usercommands
