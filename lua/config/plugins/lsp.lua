@@ -102,9 +102,6 @@ return {
 				"html",
 				"emmet_ls",
 				"pyright",
-
-				"prettier",
-				"prettierd",
 			},
 			handlers = {
 				function(server_name) -- default handler (optional)
