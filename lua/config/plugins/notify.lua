@@ -5,6 +5,8 @@ return {
 	config = function()
 		local notify = require("notify")
 		notify.setup({
+			-- background = "#0000000",
+			background_colour = "#000000",
 			minimum_width = 10,
 			maximum_width = 80,
 			top_down = false,
