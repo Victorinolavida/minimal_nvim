@@ -6,5 +6,6 @@ return {
 			virtual_text = false, -- removes duplication of diagnostic messages due to lsp_lines
 			virtual_lines = true,
 		})
+		vim.keymap.set("", "<Leader>l", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
 	end,
 }
