@@ -52,3 +52,6 @@ vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
 -- re-size window
 vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
 vim.keymap.set("n", "<leader><", "<C-w><", opts)
+
+-- session
+vim.keymap.set("n", "<C-y>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
