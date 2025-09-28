@@ -54,6 +54,9 @@ autocmd("LspAttach", {
 			vim.lsp.buf.signature_help()
 		end, { unpack(opts), desc = "Signature help" })
 
+		-- name whole project variable
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
 		-- move between diagnostics
 		vim.keymap.set("n", "[d", function()
 			vim.diagnostic.goto_next()
