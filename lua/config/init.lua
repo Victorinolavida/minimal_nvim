@@ -54,6 +54,9 @@ autocmd("LspAttach", {
 			vim.lsp.buf.signature_help()
 		end, { unpack(opts), desc = "Signature help" })
 
+		-- name whole project variable
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
 		-- move between diagnostics
 		vim.keymap.set("n", "[d", function()
 			vim.diagnostic.goto_next()
@@ -68,7 +71,7 @@ autocmd("LspAttach", {
 		end, { unpack(opts), desc = "List workspace folders" })
 
 		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, { unpack(opts), desc = "Type definition" })
-		-- vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { unpack(opts), desc = "Rename" })
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { unpack(opts), desc = "Rename" })
 		-- move between quickfix list
 		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
 		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)

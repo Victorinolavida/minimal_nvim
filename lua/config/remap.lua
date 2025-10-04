@@ -44,6 +44,7 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 vim.keymap.set("n", "te", ":tabedit<Return>", { noremap = true, silent = true, desc = "new [t]ab [e]dit" })
 vim.keymap.set("n", "<tab>", ":tabnext<Return>", opts)
 vim.keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
+vim.keymap.set("n", "<leader>t", ":tabedit %<Return>", opts)
 
 -- split window
 vim.keymap.set("n", "ss", ":split<Return>", opts)
