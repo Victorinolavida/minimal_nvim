@@ -4,6 +4,12 @@ require("config.remap")
 
 local autogroup = vim.api.nvim_create_augroup("config", {})
 local autocmd = vim.api.nvim_create_autocmd
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		print("load config")
+		require("config.after.transparent")
+	end,
+})
 
 autocmd("LspAttach", {
 	group = autogroup,
