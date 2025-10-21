@@ -24,6 +24,7 @@ return {
 					"dist",
 					"build",
 					".next",
+					".venv",
 				},
 				mappings = {
 					i = { ["<c-t>"] = trouble.open },
@@ -79,6 +80,10 @@ return {
 					"!.next",
 					"--glob",
 					"!.idea",
+					"--glob",
+					"!.vscode",
+					"--glob",
+					"!.venv",
 				},
 			})
 		end, { desc = "Find Files .env" })

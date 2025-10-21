@@ -212,5 +212,31 @@ return {
 			},
 		})
 		vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = true } })
+		vim.lsp.config.tailwindcss = {
+			cmd = { "tailwindcss-language-server", "--stdio" },
+			filetypes = {
+				"html",
+				"css",
+				"scss",
+				"sass",
+				"postcss",
+				"javascript",
+				"typescript",
+				"javascriptreact",
+				"typescriptreact",
+				"vue",
+				"svelte",
+				"astro",
+			},
+			root_markers = {
+				"tailwind.config.js",
+				"tailwind.config.ts",
+				"tailwind.config.cjs",
+				"tailwind.config.mjs",
+				"postcss.config.js",
+			},
+		}
+
+		vim.lsp.enable("tailwindcss")
 	end,
 }

@@ -19,5 +19,6 @@ return {
 		image = {
 			enabled = true,
 		},
+		bigfile = { enabled = true, notify = true },
 	},
 }

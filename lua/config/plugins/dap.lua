@@ -42,40 +42,45 @@ return {
 				},
 			}
 
-			-- local elixir_ls_debugger = vim.fn.exepath("elixir-ls-debugger")
-			-- if elixir_ls_debugger ~= "" then
-			-- 	dap.adapters.mix_task = {
-			-- 		type = "executable",
-			-- 		command = elixir_ls_debugger,
-			-- 	}
+			-- vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
+			-- vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
 			--
-			-- 	dap.configurations.elixir = {
-			-- 		{
-			-- 			type = "mix_task",
-			-- 			name = "phoenix server",
-			-- 			task = "phx.server",
-			-- 			request = "launch",
-			-- 			projectDir = "${workspaceFolder}",
-			-- 			exitAfterTaskReturns = false,
-			-- 			debugAutoInterpretAllModules = false,
-			-- 		},
-			-- 	}
-			-- end
-
-			vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-			vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
-
+			vim.keymap.set("n", "<space>dt", function()
+				dap.toggle_breakpoint()
+			end, {
+				desc = "DAP Toggle Breakpoint",
+			})
+			vim.keymap.set("n", "<space>drc", function()
+				dap.run_to_cursor()
+			end, {
+				desc = "DAP Run to Cursor",
+			})
 			-- Eval var under cursor
-			vim.keymap.set("n", "<space>?", function()
+			-- vim.keymap.set("n", "<space>?", function()
+			-- 	require("dapui").eval(nil, { enter = true })
+			-- end)
+			vim.keymap.set("n", "<space>d?", function()
 				require("dapui").eval(nil, { enter = true })
-			end)
+			end, {
+				desc = "DAP Eval under cursor",
+			})
 
-			vim.keymap.set("n", "<F1>", dap.continue)
-			vim.keymap.set("n", "<F2>", dap.step_into)
-			vim.keymap.set("n", "<F3>", dap.step_over)
-			vim.keymap.set("n", "<F4>", dap.step_out)
-			vim.keymap.set("n", "<F5>", dap.step_back)
-			vim.keymap.set("n", "<F13>", dap.restart)
+			vim.keymap.set("n", "<space>dc", dap.continue, {
+				desc = "DAP Continue",
+			})
+			vim.keymap.set("n", "<space>di", dap.step_into, {
+				desc = "DAP Step Into",
+			})
+			vim.keymap.set("n", "<space>do", dap.step_over, {
+				desc = "DAP Step Over",
+			})
+			vim.keymap.set("n", "<space>dO", dap.step_out, {
+				desc = "DAP Step Out",
+			})
+
+			vim.keymap.set("n", "<space>dr", dap.restart, {
+				desc = "DAP Restart",
+			})
 
 			dap.listeners.before.attach.dapui_config = function()
 				ui.open()
