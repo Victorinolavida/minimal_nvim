@@ -9,8 +9,15 @@ return {
 			-- require("nconf.snippets.all") // add snippets
 		end,
 	},
-
 	{
-		"saadparwaiz1/cmp_luasnip",
+		"saghen/blink.cmp",
+		lazy = false, -- lazy loading handled internally
+		dependencies = { "L3MON4D3/LuaSnip" },
+		version = "1.*",
+		opts = {
+			keymap = { preset = "super-tab" },
+			snippets = { preset = "luasnip" },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+		},
 	},
 }
