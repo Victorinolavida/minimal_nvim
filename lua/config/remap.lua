@@ -53,5 +53,3 @@ vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
 -- re-size window
 vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
 vim.keymap.set("n", "<leader><", "<C-w><", opts)
-
-print("hola")
