@@ -11,6 +11,25 @@ local languages = {
 	"python",
 	"lua",
 	"tsx",
+	-- JS / TS / Web
+	"prettier",
+	"prettierd",
+	"eslint_d",
+	"eslint",
+	"jsonlint",
+
+	-- Lua
+	"stylua",
+
+	-- Go
+	"gofumpt",
+	"golines",
+	"goimports",
+	"staticcheck",
+	"golangci-lint",
+
+	-- General
+	"misspell",
 }
 return {
 	"nvim-treesitter/nvim-treesitter",
