@@ -5,7 +5,7 @@ return {
 		ensure_installed = {
 			"lua_ls",
 			"rust_analyzer",
-
+			"eslint",
 			"golangci_lint_ls",
 			"gopls",
 			"pyright",
