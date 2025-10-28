@@ -1,3 +1,7 @@
+function clean_cache()
+	vim.fn.system("go clean -testcache")
+	vim.notify("cleaning go test cache", vim.log.levels.INFO)
+end
 return {
 	{
 		"nvim-neotest/neotest",
@@ -7,14 +11,14 @@ return {
 			"antoinemadec/FixCursorHold.nvim",
 			{
 				"nvim-treesitter/nvim-treesitter", -- Optional, but recommended
-				branch = "main",       -- NOTE; not the master branch!
+				branch = "main", -- NOTE; not the master branch!
 				build = function()
 					vim.cmd(":TSUpdate go")
 				end,
 			},
 			{
 				"fredrikaverpil/neotest-golang",
-				version = "*",                                               -- Optional, but recommended; track releases
+				version = "*", -- Optional, but recommended; track releases
 				build = function()
 					vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
 				end,
@@ -31,13 +35,15 @@ return {
 					require("neotest-golang")(config),
 				},
 				diagnostic = {
-					enabled = true
-				}
+					enabled = true,
+				},
 			})
 
 			-- Keybindings for running tests
 			vim.keymap.set("n", "<leader>nt", function()
+				clean_cache()
 				neotest.run.run(vim.fn.getcwd()) -- Run all tests in project
+				vim.notify("runing test", vim.log.levels.INFO)
 			end, { desc = "Run all tests in project" })
 
 			vim.keymap.set("n", "<leader>nf", function()
@@ -49,9 +55,10 @@ return {
 			end, { desc = "Open test output" })
 
 			vim.keymap.set("n", "<leader>nn", function()
+				clean_cache()
 				neotest.run.run() -- Run nearest test
+				vim.notify("runnig nearest test")
 			end, { desc = "Run nearest test" })
-
 
 			-- Cache clearing keybindings
 			vim.keymap.set("n", "<leader>nc", function()
