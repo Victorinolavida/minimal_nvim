@@ -2,6 +2,7 @@ function clean_cache()
 	vim.fn.system("go clean -testcache")
 	vim.notify("cleaning go test cache", vim.log.levels.INFO)
 end
+
 return {
 	{
 		"nvim-neotest/neotest",
@@ -11,14 +12,14 @@ return {
 			"antoinemadec/FixCursorHold.nvim",
 			{
 				"nvim-treesitter/nvim-treesitter", -- Optional, but recommended
-				branch = "main", -- NOTE; not the master branch!
+				branch = "main",       -- NOTE; not the master branch!
 				build = function()
 					vim.cmd(":TSUpdate go")
 				end,
 			},
 			{
 				"fredrikaverpil/neotest-golang",
-				version = "*", -- Optional, but recommended; track releases
+				version = "*",                                               -- Optional, but recommended; track releases
 				build = function()
 					vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
 				end,
@@ -28,6 +29,8 @@ return {
 			local neotest = require("neotest")
 			local config = {
 				runner = "gotestsum",
+				args = { "-v", "-race" },
+				extra_args = { "-p", "1" },
 			}
 
 			neotest.setup({

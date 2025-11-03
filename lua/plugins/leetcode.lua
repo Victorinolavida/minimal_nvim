@@ -9,5 +9,16 @@ return {
 	},
 	opts = {
 		-- configuration goes here
+		---@type string
+		arg = "leetcode.nvim",
+		---@type lc.lang
+		lang = "python",
+		---@type lc.storage
+		storage = {
+			home = vim.fn.stdpath("data") .. "/leetcode",
+			cache = vim.fn.stdpath("cache") .. "/leetcode",
+		},
+		---@type boolean
+		logging = true,
 	},
 }
