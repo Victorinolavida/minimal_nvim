@@ -1,10 +1,7 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	tag = "0.1.5",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"folke/trouble.nvim",
-	},
+	branch = "master",
+	dependencies = { "nvim-lua/plenary.nvim", "folke/trouble.nvim" },
 	config = function()
 		--config  trouble
 		local actions = require("telescope.actions")
@@ -79,6 +76,10 @@ return {
 					"!.next",
 					"--glob",
 					"!.idea",
+					"--glob",
+					"!.vscode",
+					"--glob",
+					"!.venv"
 				},
 			})
 		end, { desc = "Find Files .env" })
