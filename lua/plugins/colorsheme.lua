@@ -5,14 +5,16 @@ function ColorMyPencils(color)
 	vim.cmd.colorscheme(color)
 
 	-- Optional: transparency override
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+	-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
 return {
 	-- Tokyonight theme
 	{
 		"folke/tokyonight.nvim",
+		priority = 1000,
+		lazy = false,
 		config = function()
 			require("tokyonight").setup({
 				style = "storm",
@@ -32,6 +34,8 @@ return {
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
+		priority = 1000,
+		lazy = false,
 		config = function()
 			require("rose-pine").setup({
 				disable_background = true,
@@ -44,7 +48,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		priority = 1000,
+		priority = 2000,
 		config = function()
 			require("catppuccin").setup({
 				flavor = "frappe",
@@ -60,7 +64,8 @@ return {
 
 		"rebelot/kanagawa.nvim",
 		-- "ellisonleao/gruvbox.nvim",
-		priority = 1000,
+		lazy = false,
+		priority = 2000,
 		config = function()
 			require("kanagawa").setup({
 				compile = false, -- enable compiling the colorscheme
