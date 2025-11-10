@@ -11,5 +11,7 @@ return {
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 		image = { enabled = true },
+		zen = { enabled = true },
+		dim = { enabled = true },
 	},
 }
