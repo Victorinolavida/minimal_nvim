@@ -5,8 +5,10 @@ return {
 	---@type snacks.Config
 	opts = {
 		bigfile = { enabled = true },
+		input = { enabled = true },
 		indent = { enabled = true },
 		notifier = { enabled = true },
+		lazygit = { enabled = true },
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },

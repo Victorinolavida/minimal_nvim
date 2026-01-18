@@ -41,6 +41,7 @@ return {
 				disable_background = true,
 			})
 			-- Do NOT apply rose-pine by default
+			ColorMyPencils("rose-pine")
 		end,
 	},
 
@@ -56,7 +57,7 @@ return {
 			})
 
 			-- Apply catppuccin using your helper
-			ColorMyPencils("catppuccin")
+			-- ColorMyPencils("catppuccin")
 		end,
 	},
 	-- kanagawa theme

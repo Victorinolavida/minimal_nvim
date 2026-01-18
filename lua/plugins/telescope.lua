@@ -79,7 +79,7 @@ return {
 					"--glob",
 					"!.vscode",
 					"--glob",
-					"!.venv"
+					"!.venv",
 				},
 			})
 		end, { desc = "Find Files .env" })

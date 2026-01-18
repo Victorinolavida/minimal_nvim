@@ -42,7 +42,6 @@ autocmd("LspAttach", {
 			vim.lsp.buf.references()
 		end, { unpack(opts), desc = "Workspace References" })
 
-
 		-- name whole project variable
 		vim.keymap.set("n", "<leader>rn", function()
 			vim.lsp.buf.rename()
@@ -51,7 +50,6 @@ autocmd("LspAttach", {
 		vim.keymap.set("i", "<C-s>", function()
 			vim.lsp.buf.signature_help()
 		end, { unpack(opts), desc = "Signature help" })
-
 
 		-- move between diagnostics
 		vim.keymap.set("n", "[d", function()
@@ -80,4 +78,4 @@ vim.g.netrw_winsize = 25
 
 -- Otras configuraciones útiles
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocompletado más eficiente
-vim.opt.isfname:append("@-@")                           -- Incluir guion en los nombres de archivo
+vim.opt.isfname:append("@-@") -- Incluir guion en los nombres de archivo
