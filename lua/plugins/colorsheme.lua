@@ -41,7 +41,7 @@ return {
 				disable_background = true,
 			})
 			-- Do NOT apply rose-pine by default
-			ColorMyPencils("rose-pine")
+			ColorMyPencils("koda")
 		end,
 	},
 
@@ -95,5 +95,16 @@ return {
 			-- vim.cmd("colorscheme kanagawa")
 			-- vim.cmd("colorscheme kanagawa-dragon")
 		end, -- Default options:
+	},
+	-- KODA
+	{
+		"oskarnurm/koda.nvim",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		name = "koda",
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			-- require("koda").setup({ transparent = true })
+			vim.cmd("colorscheme koda")
+		end,
 	},
 }
