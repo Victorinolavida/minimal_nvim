@@ -41,7 +41,7 @@ return {
 				disable_background = true,
 			})
 			-- Do NOT apply rose-pine by default
-			ColorMyPencils("koda")
+			ColorMyPencils("rose-pine")
 		end,
 	},
 
