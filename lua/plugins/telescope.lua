@@ -27,23 +27,23 @@ return {
 					n = { ["<c-t>"] = trouble.open },
 				},
 			},
-			extensions = {
-				project = {
-					base_dirs = {
-						{ path = "~/projects", max_depth = 4 },
-						{ path = "~/work", max_depth = 4 },
-					},
-					hidden_files = true,
-					theme = "dropdown",
-					order_by = "recent",
-					search_by = "title",
-					sync_with_nvim_tree = true, -- if you use nvim-tree
-					on_project_selected = function(prompt_bufnr)
-						-- close Telescope and open project root
-						require("telescope.actions").close(prompt_bufnr)
-					end,
-				},
-			},
+			-- extensions = {
+			-- 	project = {
+			-- 		base_dirs = {
+			-- 			{ path = "~/projects", max_depth = 4 },
+			-- 			{ path = "~/work", max_depth = 4 },
+			-- 		},
+			-- 		hidden_files = true,
+			-- 		theme = "dropdown",
+			-- 		order_by = "recent",
+			-- 		search_by = "title",
+			-- 		sync_with_nvim_tree = true, -- if you use nvim-tree
+			-- 		on_project_selected = function(prompt_bufnr)
+			-- 			-- close Telescope and open project root
+			-- 			require("telescope.actions").close(prompt_bufnr)
+			-- 		end,
+			-- 	},
+			-- },
 		})
 
 		require("telescope").load_extension("project")
@@ -51,16 +51,16 @@ return {
 		local builtin = require("telescope.builtin")
 
 		-- projects keybindins
-		vim.keymap.set("n", "<leader>fp", require("telescope").extensions.project.project, { desc = "Find Projects" })
-		local project_actions = require("telescope._extensions.project.actions")
+		-- vim.keymap.set("n", "<leader>fp", require("telescope").extensions.project.project, { desc = "Find Projects" })
+		-- local project_actions = require("telescope._extensions.project.actions")
 
-		vim.keymap.set("n", "<leader>pa", function()
-			project_actions.add_project()
-		end, { desc = "Add Project (cwd)" })
-
-		vim.keymap.set("n", "<leader>pd", function()
-			project_actions.delete_project()
-		end, { desc = "Delete Project" })
+		-- vim.keymap.set("n", "<leader>pa", function()
+		-- 	project_actions.add_project()
+		-- end, { desc = "Add Project (cwd)" })
+		--
+		-- vim.keymap.set("n", "<leader>pd", function()
+		-- 	project_actions.delete_project()
+		-- end, { desc = "Delete Project" })
 
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[s]earch [f]ile" })
 		vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "find git files" })
