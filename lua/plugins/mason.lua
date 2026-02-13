@@ -10,6 +10,8 @@ return {
 			"pyright",
 			"tailwindcss",
 			"ts_ls",
+			"jdtls",
+			"yamlls",
 		},
 	},
 	dependencies = {

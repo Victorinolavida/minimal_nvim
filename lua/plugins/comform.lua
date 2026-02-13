@@ -28,7 +28,7 @@ return {
 				typescriptreact = { "prettierd" },
 				javascript = { "prettierd" },
 				javascriptreact = { "prettierd" },
-				["_"] = { "trim_whitespace" },
+				["_"] = { "trim_whitespace", "misspell" },
 			},
 		})
 		vim.api.nvim_create_autocmd("BufWritePre", {
