@@ -31,7 +31,6 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
 
 vim.opt.cursorline = true
-vim.g.cursorline = true
 
 vim.wo.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"

@@ -5,67 +5,29 @@ autocmd("LspAttach", {
 	group = autogroup,
 	callback = function(e)
 		local opts = { buffer = e.buf, silent = true, noremap = true }
-		vim.keymap.set("n", "gd", function()
-			vim.lsp.buf.definition()
-		end, { unpack(opts), desc = "Go to definition" })
+		local function map(mode, lhs, rhs, desc)
+			vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
+		end
 
-		vim.keymap.set("n", "gr", function()
-			vim.lsp.buf.references()
-		end, { unpack(opts), desc = "Go to references" })
-
-		-- vim.keymap.set("n", "<leader>ts", function() vim.lsp.buf.rename() end, opts)
-		vim.keymap.set("n", "gD", function()
-			vim.lsp.buf.declaration()
-		end, { unpack(opts), desc = "Go to declaration" })
-
-		vim.keymap.set("n", "gi", function()
-			vim.lsp.buf.implementation()
-		end, { unpack(opts), desc = "Go to implementation" })
-
-		vim.keymap.set("n", "K", function()
-			vim.lsp.buf.hover()
-		end, { unpack(opts), desc = "Show hover" })
-
-		vim.keymap.set("n", "<leader>ws", function()
-			vim.lsp.buf.workspace_symbol()
-		end, { unpack(opts), desc = "Workspace symbols" })
-
-		vim.keymap.set("n", "<leader>wd", function()
-			vim.diagnostic.open_float()
-		end, { unpack(opts), desc = "Open diagnostics" })
-
-		vim.keymap.set("n", "<leader>wa", function()
-			vim.lsp.buf.code_action()
-		end, { unpack(opts), desc = "Workspace Actions" })
-
-		vim.keymap.set("n", "<leader>wr", function()
-			vim.lsp.buf.references()
-		end, { unpack(opts), desc = "Workspace References" })
-
-		-- name whole project variable
-		vim.keymap.set("n", "<leader>rn", function()
-			vim.lsp.buf.rename()
-		end, { unpack(opts), desc = "Rename" })
-
-		vim.keymap.set("i", "<C-s>", function()
-			vim.lsp.buf.signature_help()
-		end, { unpack(opts), desc = "Signature help" })
-
-		-- move between diagnostics
-		vim.keymap.set("n", "[d", function()
-			vim.diagnostic.goto_next()
-		end, { unpack(opts), desc = "Next diagnostic" })
-
-		vim.keymap.set("n", "]d", function()
-			vim.diagnostic.goto_prev()
-		end, { unpack(opts), desc = "Previous diagnostic" })
-
-		vim.keymap.set("n", "<leader>wl", function()
+		map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+		map("n", "gr", vim.lsp.buf.references, "Go to references")
+		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+		map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+		map("n", "K", vim.lsp.buf.hover, "Show hover")
+		map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "Workspace symbols")
+		map("n", "<leader>wd", vim.diagnostic.open_float, "Open diagnostics")
+		map("n", "<leader>wa", vim.lsp.buf.code_action, "Code actions")
+		map("n", "<leader>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, { unpack(opts), desc = "List workspace folders" })
+		end, "List workspace folders")
+		map("n", "<leader>D", vim.lsp.buf.type_definition, "Type definition")
+		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
-		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, { unpack(opts), desc = "Type definition" })
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { unpack(opts), desc = "Rename" })
+		-- move between diagnostics ([prev, ]next is the convention)
+		map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+		map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+
 		-- move between quickfix list
 		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
 		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
