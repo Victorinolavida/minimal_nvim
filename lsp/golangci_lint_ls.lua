@@ -13,6 +13,10 @@
 --- go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 --- ```
 
+if vim.fn.executable("golangci-lint") == 0 then
+	return {}
+end
+
 ---@type vim.lsp.Config
 return {
 	cmd = { "golangci-lint-langserver" },

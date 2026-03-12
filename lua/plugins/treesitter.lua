@@ -1,4 +1,4 @@
-local languages = {
+local parsers = {
 	"vimdoc",
 	"javascript",
 	"typescript",
@@ -9,8 +9,15 @@ local languages = {
 	"bash",
 	"go",
 	"python",
-	"lua",
 	"tsx",
+	"yaml",
+	"terraform",
+	"hcl",
+	"java",
+}
+
+-- Linters / Formatters (used by Mason, not treesitter)
+local tools = {
 	-- JS / TS / Web
 	"prettier",
 	"prettierd",
@@ -39,7 +46,7 @@ return {
 	build = ":TSUpdate",
 
 	config = function()
-		require("nvim-treesitter").install(languages)
+		require("nvim-treesitter").install(parsers)
 
 		vim.api.nvim_create_autocmd("FileType", {
 			group = vim.api.nvim_create_augroup("treesitter.setup", {}),
