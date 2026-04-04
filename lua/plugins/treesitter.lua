@@ -34,6 +34,7 @@ local tools = {
 	"goimports",
 	"staticcheck",
 	"golangci-lint",
+	"delve",
 
 	-- General
 	"misspell",
