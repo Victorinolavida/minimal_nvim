@@ -59,3 +59,23 @@ vim.keymap.set("n", "<leader>pf", function()
 end, {
 	desc = "[P]roject [F]ind",
 })
+
+-- Go filetype keymaps
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "go",
+	callback = function(ev)
+		local buf = ev.buf
+		vim.keymap.set("n", "<leader>gr", "<cmd>!go run %<CR>", { buffer = buf, desc = "[g]o [r]un file" })
+		vim.keymap.set("n", "<leader>gt", "<cmd>!go test ./...<CR>", { buffer = buf, desc = "[g]o [t]est all" })
+		vim.keymap.set("n", "<leader>gT", "<cmd>!go test %:h<CR>", { buffer = buf, desc = "[g]o [T]est package" })
+		vim.keymap.set("n", "<leader>gb", "<cmd>!go build ./...<CR>", { buffer = buf, desc = "[g]o [b]uild" })
+		vim.keymap.set("n", "<leader>ga", function()
+			local file = vim.fn.expand("%")
+			if file:match("_test%.go$") then
+				vim.cmd("edit " .. file:gsub("_test%.go$", ".go"))
+			else
+				vim.cmd("edit " .. file:gsub("%.go$", "_test.go"))
+			end
+		end, { buffer = buf, desc = "[g]o [a]lternate test/impl" })
+	end,
+})
