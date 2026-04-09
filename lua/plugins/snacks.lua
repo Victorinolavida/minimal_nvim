@@ -12,8 +12,8 @@ return {
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
-		image = { enabled = true },
+		image = { enabled = false },
 		zen = { enabled = true },
-		dim = { enabled = true },
+		dim = { enabled = false },
 	},
 }
