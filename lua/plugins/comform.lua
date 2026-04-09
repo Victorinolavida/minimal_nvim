@@ -17,7 +17,7 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
-				python = { "isort", "black" },
+				python = { "ruff_organize_imports", "ruff_format" },
 				typescript = { "prettierd" },
 				typescriptreact = { "prettierd" },
 				javascript = { "prettierd" },
