@@ -10,13 +10,7 @@ return {
 	priority = 100,
 	opts = {
 		projects = {
-			{ path = "~/Documents/", depth = 4 },
-		},
-		ignore_projects = {
-			"~/Documents/**/node_modules",
-			"~/Documents/**/node_modules/**",
-			"~/Documents/**/__pycache__",
-			"~/Documents/**/__pycache__/**",
+			{ path = "~/Documents/", depth = 2 },
 		},
 	},
 	config = function(_, opts)
