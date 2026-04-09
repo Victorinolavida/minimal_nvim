@@ -2,6 +2,9 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
+	keys = {
+		{ "<leader>lg", function() Snacks.lazygit() end, desc = "LazyGit" },
+	},
 	---@type snacks.Config
 	opts = {
 		bigfile = { enabled = true },
