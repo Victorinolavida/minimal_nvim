@@ -32,6 +32,5 @@ vim.opt.colorcolumn = "80"
 
 vim.opt.cursorline = true
 
-vim.wo.foldmethod = "expr"
+vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.wo.foldenable = false -- can be enabled directly in opened file - using 'zi' - toogle fold
