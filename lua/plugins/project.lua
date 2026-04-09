@@ -12,6 +12,12 @@ return {
 		projects = {
 			{ path = "~/Documents/", depth = 4 },
 		},
+		ignore_projects = {
+			"~/Documents/**/node_modules",
+			"~/Documents/**/node_modules/**",
+			"~/Documents/**/__pycache__",
+			"~/Documents/**/__pycache__/**",
+		},
 	},
 	config = function(_, opts)
 		require("neovim-project").setup(opts)
