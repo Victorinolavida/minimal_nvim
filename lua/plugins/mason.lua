@@ -8,10 +8,15 @@ return {
 			"golangci_lint_ls",
 			"gopls",
 			"pyright",
+			"ruff",
 			"tailwindcss",
 			"ts_ls",
 			"jdtls",
 			"yamlls",
+		},
+		-- tailwindcss, yamlls, and jdtls are heavy/situational — enable manually per project
+		automatic_enable = {
+			exclude = { "tailwindcss", "yamlls", "jdtls" },
 		},
 	},
 	dependencies = {

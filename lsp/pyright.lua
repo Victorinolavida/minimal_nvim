@@ -36,10 +36,15 @@ return {
 	},
 	settings = {
 		python = {
+			-- uv/venv detection: looks for .venv in project root
+			venvPath = ".",
+			venv = ".venv",
 			analysis = {
 				autoSearchPaths = true,
 				useLibraryCodeForTypes = true,
 				diagnosticMode = "openFilesOnly",
+				-- disable linting rules covered by ruff
+				ignore = { "*" },
 			},
 		},
 	},

@@ -2,6 +2,9 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
+	keys = {
+		{ "<leader>lg", function() Snacks.lazygit() end, desc = "LazyGit" },
+	},
 	---@type snacks.Config
 	opts = {
 		bigfile = { enabled = true },
@@ -12,8 +15,8 @@ return {
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
-		image = { enabled = true },
+		image = { enabled = false },
 		zen = { enabled = true },
-		dim = { enabled = true },
+		dim = { enabled = false },
 	},
 }

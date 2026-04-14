@@ -17,5 +17,6 @@ return {
 			end,
 			desc = "Buffer Local Keymaps (which-key)",
 		},
+		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Find keymaps" },
 	},
 }

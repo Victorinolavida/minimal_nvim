@@ -1,23 +1,21 @@
 return {
 	"victorinolavida/neovim-project",
 	branch = "feature/depth-based-project-discovery",
-	opts = {
-		projects = { -- define project roots
-			{ path = "~/Documents/", depth = 4 },
-		},
-	},
 	dependencies = {
 		{ "nvim-lua/plenary.nvim" },
 		{ "nvim-telescope/telescope.nvim" },
 		{ "Shatur/neovim-session-manager" },
 	},
-	-- config = function()
-	-- 	vim.keymap.set("n", "<leader>pf", function()
-	-- 		vim.cmd("NeovimProjectDiscover")
-	-- 	end, {
-	-- 		desc = "[P]roject [F]ind",
-	-- 	})
-	-- end,
 	lazy = false,
 	priority = 100,
+	opts = {
+		projects = {
+			{ path = "~/Documents/", depth = 2 },
+		},
+	},
+	config = function(_, opts)
+		require("neovim-project").setup(opts)
+		vim.keymap.set("n", "<leader>pf", "<cmd>NeovimProjectDiscover<CR>", { desc = "[P]roject [F]ind" })
+		vim.keymap.set("n", "<leader>ph", "<cmd>NeovimProjectHistory<CR>", { desc = "[P]roject [H]istory" })
+	end,
 }

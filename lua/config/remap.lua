@@ -54,12 +54,6 @@ vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
 vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
 vim.keymap.set("n", "<leader><", "<C-w><", opts)
 
-vim.keymap.set("n", "<leader>pf", function()
-	vim.cmd("NeovimProjectDiscover")
-end, {
-	desc = "[P]roject [F]ind",
-})
-
 -- Go filetype keymaps
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "go",
