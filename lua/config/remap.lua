@@ -1,8 +1,6 @@
 -- KEYMAPS
 local opts = { noremap = true, silent = true }
 
-vim.g.mapleader = " "
-
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G", { noremap = true, desc = "Select all" })
 

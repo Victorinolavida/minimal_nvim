@@ -2,6 +2,11 @@ return {
 	"lewis6991/gitsigns.nvim",
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
+		current_line_blame = true,
+		current_line_blame_opts = {
+			delay = 300,
+			virt_text_pos = "eol",
+		},
 		signs = {
 			add = { text = "+" },
 			change = { text = "~" },
@@ -34,9 +39,7 @@ return {
 
 			-- preview / blame / diff
 			map("n", "<leader>hp", gs.preview_hunk, "[h]unk [p]review")
-			map("n", "<leader>hb", function()
-				gs.blame_line({ full = true })
-			end, "[h]unk [b]lame line")
+			map("n", "<leader>hb", gs.toggle_current_line_blame, "[h]unk [b]lame toggle")
 			map("n", "<leader>hd", gs.diffthis, "[h]unk [d]iff")
 		end,
 	},
