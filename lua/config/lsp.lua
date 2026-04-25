@@ -13,7 +13,6 @@ autocmd("LspAttach", {
 		map("n", "gr", vim.lsp.buf.references, "Go to references")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
 		map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
-		map("n", "K", vim.lsp.buf.hover, "Show hover")
 		map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "Workspace symbols")
 		map("n", "<leader>wd", vim.diagnostic.open_float, "Open diagnostics")
 		map("n", "<leader>wa", vim.lsp.buf.code_action, "Code actions")
@@ -40,4 +39,3 @@ vim.g.netrw_winsize = 25
 
 -- Otras configuraciones útiles
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocompletado más eficiente
-vim.opt.isfname:append("@-@") -- Incluir guion en los nombres de archivo

@@ -24,13 +24,10 @@ vim.opt.showmatch = true
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
--- vim.opt.isfname:append("@-@")
+vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 50
+vim.opt.updatetime = 300
 
 vim.opt.colorcolumn = "80"
 
 vim.opt.cursorline = true
-
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
