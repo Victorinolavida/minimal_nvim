@@ -8,7 +8,6 @@ return {
 			"golangci_lint_ls",
 			"gopls",
 			"pyright",
-			"ruff",
 			"tailwindcss",
 			"ts_ls",
 			"jdtls",

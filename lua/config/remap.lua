@@ -52,6 +52,11 @@ vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
 vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
 vim.keymap.set("n", "<leader><", "<C-w><", opts)
 
+-- Open obsidian vault with Telescope from anywhere
+vim.keymap.set("n", "<leader>ov", function()
+	require("telescope.builtin").find_files({ cwd = vim.fn.expand("~/obsidian-vault") })
+end, { desc = "[o]bsidian [v]ault" })
+
 -- Go filetype keymaps
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "go",

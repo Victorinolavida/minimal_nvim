@@ -140,6 +140,34 @@ Node.js is required (see Requirements). Mason handles the rest: `ts_ls`, `eslint
 | `<tab>` / `<S-tab>` | Next / previous tab |
 | `<C-d>` / `<C-u>` | Page down / up (centered) |
 
+### File Explorer (nvim-tree)
+
+| Key | Action |
+|---|---|
+| `<leader>pv` | Toggle file explorer |
+| `<C-]>` | Change session root to folder under cursor |
+| `-` | Go up to parent directory |
+
+> `<C-]>` and `-` change the entire session cwd (Telescope, LSP, etc. all scope to the new root) because `sync_root_with_cwd = true`.
+
+### Obsidian (active only in `.md` files)
+
+| Key | Action |
+|---|---|
+| `<leader>ov` | Open vault with Telescope (works from any buffer) |
+| `<leader>on` | New note |
+| `<leader>oo` | Open current note in Obsidian app |
+| `<leader>os` | Search notes |
+| `<leader>ob` | Backlinks |
+| `<leader>ot` | Today's daily note |
+| `<leader>of` | Follow wiki link |
+| `<leader>op` | Pull vault from GitHub |
+| `<leader>oP` | Push vault to GitHub (manual) |
+| `<leader>ch` | Toggle checkbox |
+| `gf` | Follow link under cursor |
+
+> Vault is at `~/obsidian-vault`. Files auto-push to GitHub on save. Use `<leader>op` to pull changes from another device.
+
 ### Telescope
 
 | Key | Action |
