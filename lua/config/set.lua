@@ -31,3 +31,12 @@ vim.opt.updatetime = 300
 vim.opt.colorcolumn = "80"
 
 vim.opt.cursorline = true
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "gitcommit", "text" },
+	callback = function()
+		vim.opt_local.spell = true
+		vim.opt_local.spelllang = "en_us"
+		vim.opt_local.conceallevel = 2
+	end,
+})
