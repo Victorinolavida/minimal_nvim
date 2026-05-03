@@ -12,6 +12,15 @@ return {
 		require("obsidian").setup(opts)
 
 		local vault = vim.fn.expand("~/obsidian-vault")
+		local sync_interval_ms = 5 * 60 * 1000 -- 5 minutes
+		local last_synced_at = nil
+
+		local function elapsed_since_last_sync()
+			if not last_synced_at then return nil end
+			local secs = math.floor((vim.uv.now() - last_synced_at) / 1000)
+			if secs < 60 then return secs .. "s ago" end
+			return math.floor(secs / 60) .. "m ago"
+		end
 
 		local function sync_vault(direction)
 			local cmd = direction == "pull"
@@ -20,16 +29,69 @@ return {
 					"git -C %s add -A && git -C %s commit -m 'nvim: manual sync' && git -C %s push",
 					vault, vault, vault
 				)
+			local stderr_lines = {}
 			vim.fn.jobstart(cmd, {
+				stderr_buffered = true,
+				on_stderr = function(_, data)
+					for _, line in ipairs(data) do
+						if line:match("^error:") or line:match("^fatal:") or line:match("rejected") or line:match("^hint:") then
+							table.insert(stderr_lines, line)
+						end
+					end
+				end,
 				on_exit = function(_, code)
 					if code == 0 then
-						vim.notify("vault " .. direction .. " done", vim.log.levels.INFO)
+						local elapsed = elapsed_since_last_sync()
+						local msg = elapsed
+							and string.format("vault %s done (last: %s)", direction, elapsed)
+							or string.format("vault %s done", direction)
+						last_synced_at = vim.uv.now()
+						vim.notify(msg, vim.log.levels.INFO)
 					else
-						vim.notify("vault " .. direction .. " failed", vim.log.levels.WARN)
+						local detail = #stderr_lines > 0
+							and ("\n" .. table.concat(stderr_lines, "\n"))
+							or "\n(no error details captured)"
+						vim.notify(
+							string.format("vault %s failed (exit %d)%s", direction, code, detail),
+							vim.log.levels.ERROR
+						)
 					end
 				end,
 			})
 		end
+
+		local timer_started_at = vim.uv.now()
+		local timer = vim.uv.new_timer()
+		timer:start(sync_interval_ms, sync_interval_ms, function()
+			vim.schedule(function()
+				sync_vault("push")
+			end)
+		end)
+
+		local function show_sync_status()
+			local now = vim.uv.now()
+			local elapsed_ms = now - (last_synced_at or timer_started_at)
+			local next_ms = sync_interval_ms - (elapsed_ms % sync_interval_ms)
+			local next_secs = math.floor(next_ms / 1000)
+			local next_str = next_secs >= 60
+				and string.format("%dm %ds", math.floor(next_secs / 60), next_secs % 60)
+				or string.format("%ds", next_secs)
+			local last_str = last_synced_at
+				and elapsed_since_last_sync()
+				or "never"
+			vim.notify(
+				string.format("vault sync — last: %s | next in: %s", last_str, next_str),
+				vim.log.levels.INFO
+			)
+		end
+
+		vim.api.nvim_create_autocmd("VimLeavePre", {
+			once = true,
+			callback = function()
+				timer:stop()
+				timer:close()
+			end,
+		})
 
 		local function set_obsidian_keymaps(buf)
 			local map = function(lhs, rhs, desc)
@@ -43,6 +105,7 @@ return {
 			map("<leader>of", "<cmd>ObsidianFollowLink<cr>",             "Obsidian Follow Link")
 			map("<leader>op", function() sync_vault("pull") end,         "Obsidian Pull")
 			map("<leader>oP", function() sync_vault("push") end,         "Obsidian Push")
+			map("<leader>oi", show_sync_status,                          "Obsidian Sync Info")
 		end
 
 		-- Apply to the buffer that triggered plugin load (FileType already fired)
