@@ -14,6 +14,8 @@ local parsers = {
 	"terraform",
 	"hcl",
 	"java",
+	"markdown",
+	"markdown_inline",
 }
 
 -- Linters / Formatters (used by Mason, not treesitter)

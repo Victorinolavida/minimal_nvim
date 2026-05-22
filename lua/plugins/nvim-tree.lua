@@ -3,10 +3,15 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
-	lazy = false,
-	config = function()
-		vim.g.loaded_netrw = 0
+	cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFile" },
+	keys = {
+		{ "<leader>pv", "<cmd>NvimTreeToggle<CR>", desc = "Toggle [P]roject [V]iew" },
+	},
+	init = function()
+		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
+	end,
+	config = function()
 		require("nvim-tree").setup({
 
 			sync_root_with_cwd = true,
@@ -115,8 +120,5 @@ return {
 		-- 	vim.cmd("edit " .. file.fname)
 		-- end)
 
-		vim.keymap.set("n", "<leader>pv", function()
-			vim.cmd("NvimTreeToggle")
-		end, { noremap = true, silent = true, desc = "Toggle [P]roject [V]iew" })
 	end,
 }
