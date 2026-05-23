@@ -4,6 +4,11 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd("LspAttach", {
 	group = autogroup,
 	callback = function(e)
+		if vim.fn.getfsize(vim.api.nvim_buf_get_name(e.buf)) > 1024 * 1024 then
+			vim.lsp.buf_detach_client(e.buf, e.data.client_id)
+			return
+		end
+
 		local opts = { buffer = e.buf, silent = true, noremap = true }
 		local function map(mode, lhs, rhs, desc)
 			vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))

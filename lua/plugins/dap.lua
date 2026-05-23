@@ -44,6 +44,25 @@ return {
 		config = function()
 			local dap = require("dap")
 
+			dap.configurations.go = {
+				{
+					type = "go",
+					name = "Debug main",
+					request = "launch",
+					program = "${fileDirname}",
+				},
+				{
+					type = "go",
+					name = "Debug main (with args)",
+					request = "launch",
+					program = "${fileDirname}",
+					args = function()
+						local args = vim.fn.input("Args: ")
+						return vim.split(args, " ")
+					end,
+				},
+			}
+
 			-- breakpoints
 			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "[d]ebug toggle [b]reakpoint" })
 			vim.keymap.set("n", "<leader>dB", function()
