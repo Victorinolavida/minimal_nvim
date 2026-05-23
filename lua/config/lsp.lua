@@ -32,6 +32,11 @@ autocmd("LspAttach", {
 		map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
 		map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
 
+		-- LSP control
+		map("n", "<leader>lq", ":LspStop<CR>", "LSP stop")
+		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
+		map("n", "<leader>li", ":LspInfo<CR>", "LSP info")
+
 		-- move between quickfix list
 		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
 		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
