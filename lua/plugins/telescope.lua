@@ -9,7 +9,7 @@ return {
 		require("telescope").setup({
 			defaults = {
 				ignore_patterns = {
-					"node_modules", --ignore node_modules
+					"node_modules",
 					"__pycache__",
 					".git",
 					".hg",
@@ -17,7 +17,6 @@ return {
 					".idea",
 					".DS_Store",
 					".vscode",
-					".git",
 					"dist",
 					"build",
 					".next",

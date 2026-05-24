@@ -118,16 +118,57 @@ Node.js is required (see Requirements). Mason handles the rest: `ts_ls`, `eslint
 
 ### Debug (DAP)
 
+**Delve is auto-installed by Mason** on first launch. No manual setup needed.
+
+#### Workflow — debug a Go program
+
+1. Open any `.go` file
+2. Set a breakpoint: `<leader>db` on the target line
+3. Start a session:
+   - **Run current file:** `:lua require("dap-go").debug_test()` or use neotest (`<leader>dt`)
+   - **Attach to running process:** `:lua require("dap").attach()`
+   - **Re-run last session:** `<leader>dr`
+4. DAP UI opens automatically — shows scopes, watches, call stack, console
+5. Navigate with step keys below
+6. Quit: `<leader>dq`
+
+#### Workflow — debug a Go test
+
+1. Open the `_test.go` file
+2. Place cursor **inside** the test function you want to debug
+3. `<leader>dt` — starts delve on that specific test
+4. `<leader>dT` — re-runs the last debugged test (no cursor needed)
+
+#### Variable inspection
+
+- **Hover** over a variable while paused → `K` shows current value
+- **Virtual text** appears automatically next to each line showing variable values (no keymap needed)
+- **REPL / console** is in the DAP UI bottom panel — evaluate any expression
+
+#### Conditional breakpoints & log points
+
+- `<leader>dB` — breakpoint that only triggers when an expression is true  
+  e.g. enter `i > 5` to pause only when `i` is greater than 5
+- `<leader>dl` — log point: prints a message without pausing execution  
+  e.g. enter `hit loop i={i}` to log without stopping
+
+#### All keymaps
+
 | Key | Action |
 |---|---|
 | `<leader>db` | Toggle breakpoint |
-| `<leader>dc` | Continue |
+| `<leader>dB` | Conditional breakpoint (prompt for expression) |
+| `<leader>dl` | Log point (prints, no pause) |
+| `<leader>dc` | Continue / start session |
 | `<leader>ds` | Step over |
 | `<leader>di` | Step into |
 | `<leader>do` | Step out |
+| `<leader>dr` | Re-run last session |
+| `<leader>dR` | Restart current session |
 | `<leader>dq` | Terminate session |
 | `<leader>du` | Toggle DAP UI |
-| `<leader>dt` | Debug nearest Go test |
+| `<leader>dt` | Debug nearest Go test (cursor inside test func) |
+| `<leader>dT` | Re-run last debugged Go test |
 
 ### Navigation
 
@@ -255,7 +296,7 @@ Node.js is required (see Requirements). Mason handles the rest: `ts_ls`, `eslint
 | Syntax | nvim-treesitter |
 | Fuzzy finder | telescope.nvim |
 | Diagnostics | trouble.nvim + tiny-inline-diagnostic |
-| Debugging | nvim-dap + nvim-dap-ui + nvim-dap-go |
+| Debugging | nvim-dap + nvim-dap-ui + nvim-dap-go + nvim-dap-virtual-text |
 | Test runner | neotest + neotest-go |
 | Git signs | gitsigns.nvim |
 | Git diff/history | diffview.nvim |

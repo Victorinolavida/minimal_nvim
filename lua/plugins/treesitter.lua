@@ -14,6 +14,8 @@ local parsers = {
 	"terraform",
 	"hcl",
 	"java",
+	"markdown",
+	"markdown_inline",
 }
 
 -- Linters / Formatters (used by Mason, not treesitter)
@@ -54,6 +56,11 @@ return {
 			callback = function(args)
 				local buf = args.buf
 				local filetype = args.match
+
+				-- skip treesitter for files > 1MB
+				if vim.fn.getfsize(vim.api.nvim_buf_get_name(buf)) > 1024 * 1024 then
+					return
+				end
 
 				-- you need some mechanism to avoid running on buffers that do not
 				-- correspond to a language (like oil.nvim buffers), this implementation

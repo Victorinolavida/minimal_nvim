@@ -43,7 +43,7 @@
 
 ---@type vim.lsp.Config
 return {
-	init_options = { hostInfo = "neovim" },
+	init_options = { hostInfo = "neovim", maxTsServerMemory = 4096 },
 	cmd = { "typescript-language-server", "--stdio" },
 	filetypes = {
 		"javascript",
