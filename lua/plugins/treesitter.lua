@@ -16,6 +16,7 @@ local parsers = {
 	"java",
 	"markdown",
 	"markdown_inline",
+	"http",
 }
 
 -- Linters / Formatters (used by Mason, not treesitter)

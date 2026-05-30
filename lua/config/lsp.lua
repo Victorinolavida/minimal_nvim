@@ -37,6 +37,16 @@ autocmd("LspAttach", {
 		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
 		map("n", "<leader>li", ":LspInfo<CR>", "LSP info")
 
+		-- inlay hints (param names, types)
+		local client = vim.lsp.get_client_by_id(e.data.client_id)
+		if client and client.supports_method("textDocument/inlayHint") then
+			vim.lsp.inlay_hint.enable(true, { bufnr = e.buf })
+		end
+
+		map("n", "<leader>wh", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = e.buf }), { bufnr = e.buf })
+		end, "Toggle inlay hints")
+
 		-- move between quickfix list
 		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
 		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
