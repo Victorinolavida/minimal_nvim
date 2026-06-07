@@ -24,7 +24,7 @@ autocmd("LspAttach", {
 		map("n", "<leader>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List workspace folders")
-		map("n", "<leader>D", vim.lsp.buf.type_definition, "Type definition")
+		map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
 		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
