@@ -43,8 +43,10 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
+			local wk = require("which-key")
 
-			dap.configurations.go = {
+			-- append extra go configs on top of what dap-go sets up
+			vim.list_extend(dap.configurations.go or {}, {
 				{
 					type = "go",
 					name = "Debug main",
@@ -61,38 +63,44 @@ return {
 						return vim.split(args, " ")
 					end,
 				},
-			}
+			})
+
+			-- register <leader>D as a named group so which-key shows it
+			wk.add({ { "<leader>D", group = "Debug" } })
 
 			-- breakpoints
-			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "[D]ebug toggle [b]reakpoint" })
+			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
 			vim.keymap.set("n", "<leader>DB", function()
 				dap.set_breakpoint(vim.fn.input("Condition: "))
-			end, { desc = "[D]ebug conditional [B]reakpoint" })
+			end, { desc = "Conditional breakpoint" })
 			vim.keymap.set("n", "<leader>Dl", function()
 				dap.set_breakpoint(nil, nil, vim.fn.input("Log message: "))
-			end, { desc = "[D]ebug [l]og point" })
+			end, { desc = "Log point" })
 
 			-- execution
-			vim.keymap.set("n", "<leader>Dc", dap.continue, { desc = "[D]ebug [c]ontinue" })
-			vim.keymap.set("n", "<leader>Ds", dap.step_over, { desc = "[D]ebug [s]tep over" })
-			vim.keymap.set("n", "<leader>Di", dap.step_into, { desc = "[D]ebug step [i]nto" })
-			vim.keymap.set("n", "<leader>Do", dap.step_out, { desc = "[D]ebug step [o]ut" })
-			vim.keymap.set("n", "<leader>DR", dap.restart, { desc = "[D]ebug [R]estart" })
-			vim.keymap.set("n", "<leader>Dr", dap.run_last, { desc = "[D]ebug [r]un last" })
-			vim.keymap.set("n", "<leader>Dq", dap.terminate, { desc = "[D]ebug [q]uit" })
+			vim.keymap.set("n", "<leader>Dc", dap.continue, { desc = "Continue" })
+			vim.keymap.set("n", "<leader>Ds", dap.step_over, { desc = "Step over" })
+			vim.keymap.set("n", "<leader>Di", dap.step_into, { desc = "Step into" })
+			vim.keymap.set("n", "<leader>Do", dap.step_out, { desc = "Step out" })
+			vim.keymap.set("n", "<leader>DR", dap.restart, { desc = "Restart" })
+			vim.keymap.set("n", "<leader>Dr", dap.run_last, { desc = "Run last" })
+			vim.keymap.set("n", "<leader>Dq", dap.terminate, { desc = "Quit" })
 
 			-- ui
 			vim.keymap.set("n", "<leader>Du", function()
 				require("dapui").toggle()
-			end, { desc = "[D]ebug [u]i toggle" })
+			end, { desc = "Toggle UI" })
+			vim.keymap.set({ "n", "v" }, "<leader>De", function()
+				require("dapui").eval()
+			end, { desc = "Eval expression" })
 
 			-- go-specific
 			vim.keymap.set("n", "<leader>Dt", function()
 				require("dap-go").debug_test()
-			end, { desc = "[D]ebug go [t]est" })
+			end, { desc = "Debug test (Go)" })
 			vim.keymap.set("n", "<leader>DT", function()
 				require("dap-go").debug_last_test()
-			end, { desc = "[D]ebug go last [T]est" })
+			end, { desc = "Debug last test (Go)" })
 		end,
 	},
 }

@@ -8,7 +8,10 @@ return {
 		"nvim-neotest/neotest-go",
 	},
 	config = function()
-		require("neotest").setup({
+		local neotest = require("neotest")
+		local wk = require("which-key")
+
+		neotest.setup({
 			adapters = {
 				require("neotest-go")({
 					args = { "-v", "-count=1" },
@@ -16,28 +19,47 @@ return {
 			},
 		})
 
+		-- register <leader>n as a named group so which-key shows it
+		wk.add({ { "<leader>n", group = "Neotest" } })
+
 		vim.keymap.set("n", "<leader>nt", function()
-			require("neotest").run.run()
-		end, { desc = "[n]eotest run nearest [t]est" })
+			neotest.run.run()
+		end, { desc = "Run nearest test" })
+
+		vim.keymap.set("n", "<leader>nd", function()
+			neotest.run.run({ strategy = "dap" })
+		end, { desc = "Debug nearest test" })
 
 		vim.keymap.set("n", "<leader>nf", function()
-			require("neotest").run.run(vim.fn.expand("%"))
-		end, { desc = "[n]eotest run [f]ile" })
+			neotest.run.run(vim.fn.expand("%"))
+		end, { desc = "Run file" })
 
 		vim.keymap.set("n", "<leader>na", function()
-			require("neotest").run.run({ suite = true })
-		end, { desc = "[n]eotest run [a]ll" })
+			neotest.run.run({ suite = true })
+		end, { desc = "Run all" })
 
 		vim.keymap.set("n", "<leader>ns", function()
-			require("neotest").run.stop()
-		end, { desc = "[n]eotest [s]top" })
+			neotest.run.stop()
+		end, { desc = "Stop" })
 
 		vim.keymap.set("n", "<leader>no", function()
-			require("neotest").output_panel.toggle()
-		end, { desc = "[n]eotest [o]utput panel" })
+			neotest.output.open({ enter = true })
+		end, { desc = "Output (nearest)" })
+
+		vim.keymap.set("n", "<leader>nO", function()
+			neotest.output_panel.toggle()
+		end, { desc = "Output panel" })
 
 		vim.keymap.set("n", "<leader>nS", function()
-			require("neotest").summary.toggle()
-		end, { desc = "[n]eotest [S]ummary" })
+			neotest.summary.toggle()
+		end, { desc = "Summary" })
+
+		vim.keymap.set("n", "]n", function()
+			neotest.jump.next({ status = "failed" })
+		end, { desc = "Next failed test" })
+
+		vim.keymap.set("n", "[n", function()
+			neotest.jump.prev({ status = "failed" })
+		end, { desc = "Prev failed test" })
 	end,
 }
