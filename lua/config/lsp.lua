@@ -43,5 +43,32 @@ autocmd("LspAttach", {
 	end,
 })
 
+-- nvim-lspconfig ships its own lsp/rust_analyzer.lua. Because it sits later on the
+-- runtimepath than our config, Neovim's lsp/ merge (last-wins) makes lspconfig's
+-- root_dir/settings shadow ours — so our standalone-file fallback never runs.
+-- vim.lsp.config() has the highest precedence, so re-register our file through it.
+local rust_cfg_ok, rust_cfg = pcall(dofile, vim.fn.stdpath("config") .. "/lsp/rust_analyzer.lua")
+if rust_cfg_ok then
+	vim.lsp.config("rust_analyzer", rust_cfg)
+end
+
+-- Show LSP progress (e.g. rust-analyzer "Indexing…") via the snacks notifier,
+-- so it's obvious when a server is still loading and hover/refs aren't ready yet.
+autocmd("LspProgress", {
+	group = autogroup,
+	---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+	callback = function(ev)
+		local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+		vim.notify(vim.lsp.status(), "info", {
+			id = "lsp_progress",
+			title = "LSP Progress",
+			opts = function(notif)
+				notif.icon = ev.data.params.value.kind == "end" and " "
+					or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+			end,
+		})
+	end,
+})
+
 -- Otras configuraciones útiles
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocompletado más eficiente
