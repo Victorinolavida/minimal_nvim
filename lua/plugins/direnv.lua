@@ -1,4 +1,4 @@
 return {
 	"direnv/direnv.vim",
-	lazy = false,
+	event = "VeryLazy",
 }
