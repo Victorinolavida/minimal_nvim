@@ -22,6 +22,20 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 -- paste from clipboard
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
+-- toggle ; at end of line
+local function toggle_char_eol(char)
+	return function()
+		local line = vim.api.nvim_get_current_line()
+		local trimmed = line:gsub("%s+$", "")
+		if trimmed:sub(-1) == char then
+			vim.api.nvim_set_current_line(trimmed:sub(1, -2))
+		else
+			vim.api.nvim_set_current_line(trimmed .. char)
+		end
+	end
+end
+vim.keymap.set({ "n", "v" }, "<C-;>", toggle_char_eol(";"), { desc = "Toggle ; at eol" })
+
 -- restart lsp
 vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
