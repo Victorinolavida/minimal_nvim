@@ -9,7 +9,7 @@ return {
 	},
 	config = function()
 		local neotest = require("neotest")
-		local wk = require("which-key")
+		-- local wk = require("which-key")
 
 		neotest.setup({
 			adapters = {
@@ -20,7 +20,7 @@ return {
 		})
 
 		-- register <leader>n as a named group so which-key shows it
-		wk.add({ { "<leader>n", group = "Neotest" } })
+		-- wk.add({ { "<leader>n", group = "Neotest" } })
 
 		vim.keymap.set("n", "<leader>nt", function()
 			neotest.run.run()

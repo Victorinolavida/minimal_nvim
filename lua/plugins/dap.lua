@@ -43,7 +43,7 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-			local wk = require("which-key")
+			-- local wk = require("which-key")
 
 			-- append extra go configs on top of what dap-go sets up
 			vim.list_extend(dap.configurations.go or {}, {
@@ -66,7 +66,7 @@ return {
 			})
 
 			-- register <leader>D as a named group so which-key shows it
-			wk.add({ { "<leader>D", group = "Debug" } })
+			-- wk.add({ { "<leader>D", group = "Debug" } })
 
 			-- breakpoints
 			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
