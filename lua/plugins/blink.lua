@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { "nvim-mini/mini.snippets", "rafamadriz/friendly-snippets" },
+	dependencies = { "nvim-mini/mini.snippets" },
 	version = "1.*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config

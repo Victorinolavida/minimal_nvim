@@ -16,14 +16,20 @@ return {
 	},
 	{
 		"nvim-mini/mini.snippets",
+		dependencies = { "rafamadriz/friendly-snippets" },
 		config = function()
 			local MiniSnippets = require("mini.snippets")
 			MiniSnippets.setup({
 				snippets = {
-					MiniSnippets.gen_loader.from_lang(), -- loads friendly-snippets
+					MiniSnippets.gen_loader.from_lang(),
 				},
 			})
-			MiniSnippets.start_lsp_server({ match = false })
+		end,
+	},
+	{
+		"nvim-mini/mini.pairs",
+		config = function()
+			require("mini.pairs").setup()
 		end,
 	},
 	{
@@ -63,7 +69,7 @@ return {
 	},
 	{
 		"nvim-mini/mini.ai",
-		dependencies = { "nvim-mini/mini.extra" },
+		dependencies = { "nvim-mini/mini.extra", "nvim-treesitter/nvim-treesitter-textobjects" },
 		config = function()
 			local MiniAi = require("mini.ai")
 			MiniAi.setup({
