@@ -3,10 +3,35 @@ return {
 	priority = 1000,
 	lazy = false,
 	keys = {
-		{ "<leader>lg", function() Snacks.lazygit() end, desc = "LazyGit" },
-		{ "<C-t>", function() Snacks.terminal(nil, { win = { position = "bottom" } }) end, mode = { "n", "t" }, desc = "Toggle terminal" },
-		{ "<leader>tf", function() Snacks.terminal(nil, { win = { position = "float" } }) end, desc = "Toggle floating terminal" },
-		{ "<leader>th", function() Snacks.terminal(nil, { win = { position = "bottom" } }) end, desc = "Toggle horizontal terminal" },
+		{
+			"<leader>lg",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "LazyGit",
+		},
+		{
+			"<C-t>",
+			function()
+				Snacks.terminal(nil, { win = { position = "bottom" } })
+			end,
+			mode = { "n", "t" },
+			desc = "Toggle terminal",
+		},
+		{
+			"<leader>tf",
+			function()
+				Snacks.terminal(nil, { win = { position = "float" } })
+			end,
+			desc = "Toggle floating terminal",
+		},
+		{
+			"<leader>th",
+			function()
+				Snacks.terminal(nil, { win = { position = "bottom" } })
+			end,
+			desc = "Toggle horizontal terminal",
+		},
 	},
 	---@type snacks.Config
 	opts = {
@@ -22,5 +47,6 @@ return {
 		image = { enabled = false },
 		zen = { enabled = true },
 		dim = { enabled = false },
+		scope = { enabled = true },
 	},
 }

@@ -7,6 +7,13 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("config.remap")
+
+-- When embedded inside VS Code (vscode-neovim), skip plugins and LSP —
+-- VS Code owns those. Only keymaps from remap.lua carry over.
+if vim.g.vscode then
+  return
+end
+
 require("config.set")
 require("config.lsp")
 

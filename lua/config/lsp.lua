@@ -1,5 +1,20 @@
-local autogroup = vim.api.nvim_create_augroup("config", {})
+local autogroup = vim.api.nvim_create_augroup("lsp_config", {})
 local autocmd = vim.api.nvim_create_autocmd
+
+-- Diagnostic signs in the gutter (aside the line number) + underline in the buffer
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
+		},
+	},
+	underline = true,
+	severity_sort = true,
+	virtual_text = false, -- handled by tiny-inline-diagnostic.nvim
+})
 
 autocmd("LspAttach", {
 	group = autogroup,
@@ -26,31 +41,25 @@ autocmd("LspAttach", {
 		end, "List workspace folders")
 		map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+		map("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
 		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
 		-- move between diagnostics ([prev, ]next is the convention)
-		map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-		map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
+		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
+
+		-- inlay hints toggle
+		map("n", "<leader>lh", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = e.buf }))
+		end, "Toggle inlay hints")
 
 		-- LSP control
 		map("n", "<leader>lq", ":LspStop<CR>", "LSP stop")
 		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
 		map("n", "<leader>li", ":LspInfo<CR>", "LSP info")
 
-		-- move between quickfix list
-		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
-		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
 	end,
 })
-
--- nvim-lspconfig ships its own lsp/rust_analyzer.lua. Because it sits later on the
--- runtimepath than our config, Neovim's lsp/ merge (last-wins) makes lspconfig's
--- root_dir/settings shadow ours — so our standalone-file fallback never runs.
--- vim.lsp.config() has the highest precedence, so re-register our file through it.
-local rust_cfg_ok, rust_cfg = pcall(dofile, vim.fn.stdpath("config") .. "/lsp/rust_analyzer.lua")
-if rust_cfg_ok then
-	vim.lsp.config("rust_analyzer", rust_cfg)
-end
 
 -- Show LSP progress (e.g. rust-analyzer "Indexing…") via the snacks notifier,
 -- so it's obvious when a server is still loading and hover/refs aren't ready yet.
@@ -59,7 +68,7 @@ autocmd("LspProgress", {
 	---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
 	callback = function(ev)
 		local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-		vim.notify(vim.lsp.status(), "info", {
+		vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
 			id = "lsp_progress",
 			title = "LSP Progress",
 			opts = function(notif)
@@ -70,5 +79,3 @@ autocmd("LspProgress", {
 	end,
 })
 
--- Otras configuraciones útiles
-vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocompletado más eficiente

@@ -1,6 +1,15 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
+		keys = {
+			{ "<leader>Db", desc = "Toggle breakpoint" },
+			{ "<leader>Dc", desc = "Continue / Start" },
+			{ "<leader>Ds", desc = "Step over" },
+			{ "<leader>Di", desc = "Step into" },
+			{ "<leader>Do", desc = "Step out" },
+			{ "<leader>Du", desc = "Toggle DAP UI" },
+			{ "<leader>Dt", desc = "Debug test (Go)" },
+		},
 		dependencies = {
 			{
 				"rcarriga/nvim-dap-ui",
@@ -43,30 +52,114 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-			local wk = require("which-key")
 
-			-- append extra go configs on top of what dap-go sets up
-			vim.list_extend(dap.configurations.go or {}, {
+			-- Emacs `M-x compile` style args prompt: pre-fills the minibuffer
+			-- with your last run (persisted to disk so it survives restarts),
+			-- lets you edit the whole line, and splits it quote-aware so
+			-- `--name "John Doe"` stays one argument. Empty input -> no args.
+			local arg_store = vim.fn.stdpath("state") .. "/dap_args.json"
+
+			local function load_args()
+				local f = io.open(arg_store, "r")
+				if not f then
+					return {}
+				end
+				local ok, data = pcall(vim.json.decode, f:read("*a"))
+				f:close()
+				return (ok and type(data) == "table") and data or {}
+			end
+
+			local function save_args(history)
+				local f = io.open(arg_store, "w")
+				if f then
+					f:write(vim.json.encode(history))
+					f:close()
+				end
+			end
+
+			local function prompt_args(key)
+				return function()
+					local history = load_args()
+					local prev = history[key] or ""
+					local input = vim.fn.input({ prompt = "Args: ", default = prev })
+					history[key] = input
+					save_args(history)
+					-- quote-aware split: "--name \"John Doe\"" -> one arg
+					return require("dap.utils").splitstr(vim.trim(input))
+				end
+			end
+
+			-- Walk up from the current file to find the Go module root
+			-- (the dir containing go.mod). The debugged program runs with
+			-- THIS as its working directory, so relative paths it opens
+			-- (config files, seed data, output dirs) resolve correctly.
+			local function module_root()
+				local start = vim.fn.expand("%:p:h")
+				local found = vim.fs.find("go.mod", { path = start, upward = true })[1]
+				return found and vim.fn.fnamemodify(found, ":h") or vim.fn.getcwd()
+			end
+
+			-- Find the main package to debug. Auto-detects the common Go
+			-- layouts (cmd/<app>/main.go, cmd/main.go, ./main.go); if there
+			-- are several, prompts you to pick via vim.ui.select.
+			local function pick_program()
+				local root = module_root()
+				local mains = vim.fn.glob(root .. "/**/main.go", false, true)
+				local dirs = {}
+				for _, f in ipairs(mains) do
+					if not f:match("/vendor/") then
+						dirs[#dirs + 1] = vim.fn.fnamemodify(f, ":h")
+					end
+				end
+				if #dirs == 0 then
+					return require("dap").ABORT
+				elseif #dirs == 1 then
+					return dirs[1]
+				end
+				-- nvim-dap runs program functions inside a coroutine, so we can
+				-- yield here and resume once vim.ui.select calls back.
+				local co = coroutine.running()
+				vim.ui.select(dirs, {
+					prompt = "Debug which main package?",
+					format_item = function(d) return vim.fn.fnamemodify(d, ":.") end,
+				}, function(choice)
+					coroutine.resume(co, choice)
+				end)
+				local choice = coroutine.yield()
+				return choice or require("dap").ABORT
+			end
+
+			-- Named launch presets. Each entry is its own pickable config at
+			-- dap.continue, so the arg sets you use often live here as a menu
+			-- instead of being retyped. Add a new preset by copying a block
+			-- and giving it a name + args.
+			dap.configurations.go = dap.configurations.go or {}
+			vim.list_extend(dap.configurations.go, {
 				{
+					-- auto-finds main.go (root, cmd/main.go, cmd/<app>/main.go);
+					-- prompts to pick when there's more than one. cwd is the
+					-- module root so relative paths (nodes.json, seed.json,
+					-- logs/ etc.) the program opens actually resolve.
 					type = "go",
-					name = "Debug main",
+					name = "Debug main (auto-detect)",
 					request = "launch",
-					program = "${fileDirname}",
+					program = pick_program,
+					cwd = module_root,
+					-- run in a real terminal so interactive CLIs that read
+					-- stdin (menus, prompts) work instead of hitting EOF
+					-- and exiting immediately
+					console = "integratedTerminal",
 				},
 				{
 					type = "go",
-					name = "Debug main (with args)",
+					name = "Debug main (auto-detect + args)",
 					request = "launch",
-					program = "${fileDirname}",
-					args = function()
-						local args = vim.fn.input("Args: ")
-						return vim.split(args, " ")
-					end,
+					program = pick_program,
+					cwd = module_root,
+					args = prompt_args("go-main"),
+					console = "integratedTerminal",
 				},
 			})
-
-			-- register <leader>D as a named group so which-key shows it
-			wk.add({ { "<leader>D", group = "Debug" } })
 
 			-- breakpoints
 			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })

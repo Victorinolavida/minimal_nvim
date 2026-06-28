@@ -8,6 +8,7 @@ return {
 			"golangci_lint_ls",
 			"gopls",
 			"pyright",
+			"ruff",
 			"tailwindcss",
 			"ts_ls",
 			"jdtls",
@@ -35,7 +36,6 @@ return {
 					"misspell", -- generic spell-check formatter
 					"prettier", -- web (css/html/json/yaml/md/...)
 					"prettierd", -- web (js/ts)
-					"ruff", -- python (format + organize imports)
 				},
 			},
 		},

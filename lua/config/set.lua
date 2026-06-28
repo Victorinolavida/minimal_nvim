@@ -1,8 +1,11 @@
 vim.opt.guicursor = ""
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.netrw_banner = 0
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
--- vim.g.relativenumber = true
+vim.o.cmdheight = 0
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -27,16 +30,16 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 300
-
-vim.opt.colorcolumn = "80"
-
 vim.opt.cursorline = true
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "markdown", "gitcommit", "text" },
+vim.opt.completeopt = "menuone,noselect,fuzzy,nosort"
+vim.opt.shortmess:append("c")
+
+vim.opt.colorcolumn = "0"
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
 	callback = function()
-		vim.opt_local.spell = true
-		vim.opt_local.spelllang = "en_us"
-		vim.opt_local.conceallevel = 2
+		vim.hl.on_yank()
 	end,
 })

@@ -1,9 +1,3 @@
----@brief
----
---- https://github.com/golang/tools/tree/master/gopls
----
---- Google's lsp server for golang.
-
 --- @class go_dir_custom_args
 ---
 --- @field envvar_id string
@@ -110,7 +104,6 @@ return {
 			usePlaceholders = true,
 			completeUnimported = true,
 			completeFunctionCalls = true,
-			experimentalPostfixCompletions = true,
 			hints = {
 				assignVariableTypes = true,
 				compositeLiteralFields = true,

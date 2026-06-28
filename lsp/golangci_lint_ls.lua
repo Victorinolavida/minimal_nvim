@@ -1,18 +1,3 @@
----@brief
----
---- Combination of both lint server and client
----
---- https://github.com/nametake/golangci-lint-langserver
---- https://github.com/golangci/golangci-lint
----
----
---- Installation of binaries needed is done via
----
---- ```
---- go install github.com/nametake/golangci-lint-langserver@latest
---- go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
---- ```
-
 if vim.fn.executable("golangci-lint") == 0 then
 	return {}
 end

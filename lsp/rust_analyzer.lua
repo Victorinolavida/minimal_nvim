@@ -1,26 +1,3 @@
----@brief
----
---- https://github.com/rust-lang/rust-analyzer
----
---- rust-analyzer (aka rls 2.0), a language server for Rust
----
----
---- See [docs](https://rust-analyzer.github.io/book/configuration.html) for extra settings. The settings can be used like this:
---- ```lua
---- vim.lsp.config('rust_analyzer', {
----   settings = {
----     ['rust-analyzer'] = {
----       diagnostics = {
----         enable = false;
----       }
----     }
----   }
---- })
---- ```
----
---- Note: do not set `init_options` for this LS config, it will be automatically populated by the contents of settings["rust-analyzer"] per
---- https://github.com/rust-lang/rust-analyzer/blob/eb5da56d839ae0a9e9f50774fa3eb78eb0964550/docs/dev/lsp-extensions.md?plain=1#L26.
-
 local function reload_workspace(bufnr)
 	local clients = vim.lsp.get_clients { bufnr = bufnr, name = 'rust_analyzer' }
 	for _, client in ipairs(clients) do
@@ -178,16 +155,15 @@ return {
 			if r.args.executableArgs and #r.args.executableArgs > 0 then
 				vim.list_extend(cmd, { '--', unpack(r.args.executableArgs) })
 			end
-
-			local proc = vim.system(cmd, { cwd = r.args.cwd, env = r.args.environment })
-
-			local result = proc:wait()
-
-			if result.code == 0 then
-				vim.notify(result.stdout, vim.log.levels.INFO)
-			else
-				vim.notify(result.stderr, vim.log.levels.ERROR)
-			end
+			vim.system(cmd, { cwd = r.args.cwd, env = r.args.environment }, function(result)
+				vim.schedule(function()
+					if result.code == 0 then
+						vim.notify(result.stdout, vim.log.levels.INFO)
+					else
+						vim.notify(result.stderr, vim.log.levels.ERROR)
+					end
+				end)
+			end)
 		end
 	end,
 	on_attach = function(_, bufnr)

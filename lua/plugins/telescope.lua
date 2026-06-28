@@ -1,7 +1,11 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	branch = "master",
+	version = false,
 	dependencies = { "nvim-lua/plenary.nvim", "folke/trouble.nvim" },
+	keys = {
+		{ "<leader>ff" }, { "<C-p>" }, { "<leader>fw" }, { "<leader>fb" },
+		{ "<leader>fW" }, { "<leader>fr" }, { "<leader>fh" }, { "<leader>fa" }, { "<leader>fl" },
+	},
 	config = function()
 		--config  trouble
 		local trouble = require("trouble.sources.telescope")

@@ -18,29 +18,6 @@ local parsers = {
 	"markdown_inline",
 }
 
--- Linters / Formatters (used by Mason, not treesitter)
-local tools = {
-	-- JS / TS / Web
-	"prettier",
-	"prettierd",
-	"eslint_d",
-	"eslint",
-	"jsonlint",
-
-	-- Lua
-	"stylua",
-
-	-- Go
-	"gofumpt",
-	"golines",
-	"goimports",
-	"staticcheck",
-	"golangci-lint",
-	"delve",
-
-	-- General
-	"misspell",
-}
 return {
 	"nvim-treesitter/nvim-treesitter",
 	branch = "main",
