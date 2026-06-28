@@ -104,7 +104,7 @@ return {
 			usePlaceholders = true,
 			completeUnimported = true,
 			completeFunctionCalls = true,
-				hints = {
+			hints = {
 				assignVariableTypes = true,
 				compositeLiteralFields = true,
 				compositeLiteralTypes = true,
