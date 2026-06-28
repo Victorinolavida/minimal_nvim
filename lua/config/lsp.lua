@@ -1,5 +1,20 @@
-local autogroup = vim.api.nvim_create_augroup("config", {})
+local autogroup = vim.api.nvim_create_augroup("lsp_config", {})
 local autocmd = vim.api.nvim_create_autocmd
+
+-- Diagnostic signs in the gutter (aside the line number) + underline in the buffer
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
+		},
+	},
+	underline = true,
+	severity_sort = true,
+	virtual_text = false, -- handled by tiny-inline-diagnostic.nvim
+})
 
 autocmd("LspAttach", {
 	group = autogroup,
@@ -29,26 +44,15 @@ autocmd("LspAttach", {
 		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
 		-- move between diagnostics ([prev, ]next is the convention)
-		map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-		map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
+		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
 
 		-- LSP control
 		map("n", "<leader>lq", ":LspStop<CR>", "LSP stop")
 		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
 		map("n", "<leader>li", ":LspInfo<CR>", "LSP info")
 
-		-- move between quickfix list
-		vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", opts)
-		vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
 	end,
-})
-
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = { globals = { "vim" } },
-		},
-	},
 })
 
 -- Show LSP progress (e.g. rust-analyzer "Indexing…") via the snacks notifier,
@@ -69,5 +73,3 @@ autocmd("LspProgress", {
 	end,
 })
 
--- Otras configuraciones útiles
-vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocompletado más eficiente

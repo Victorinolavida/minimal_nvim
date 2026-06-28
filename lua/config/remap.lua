@@ -86,6 +86,10 @@ vim.keymap.set("n", "<leader><", "<C-w><", opts)
 -- 	end,
 -- })
 
+-- move between quickfix list
+vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>u", function()
 	vim.cmd.packadd("nvim.undotree")
 	require("undotree").open()
