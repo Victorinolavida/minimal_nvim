@@ -1,44 +1,3 @@
---- @brief
----
---- https://github.com/hrsh7th/vscode-langservers-extracted
----
---- `vscode-eslint-language-server` is a linting engine for JavaScript / Typescript.
---- It can be installed via `npm`:
----
---- ```sh
---- npm i -g vscode-langservers-extracted
---- ```
----
---- The default `on_attach` config provides the `LspEslintFixAll` command that can be used to format a document on save:
---- ```lua
---- local base_on_attach = vim.lsp.config.eslint.on_attach
---- vim.lsp.config("eslint", {
----   on_attach = function(client, bufnr)
----     if not base_on_attach then return end
----
----     base_on_attach(client, bufnr)
----     vim.api.nvim_create_autocmd("BufWritePre", {
----       buffer = bufnr,
----       command = "LspEslintFixAll",
----     })
----   end,
---- })
---- ```
----
---- See [vscode-eslint](https://github.com/microsoft/vscode-eslint/blob/55871979d7af184bf09af491b6ea35ebd56822cf/server/src/eslintServer.ts#L216-L229) for configuration options.
----
---- Messages handled in lspconfig: `eslint/openDoc`, `eslint/confirmESLintExecution`, `eslint/probeFailed`, `eslint/noLibrary`
----
---- Additional messages you can handle: `eslint/noConfig`
----
---- ### Monorepo support
----
---- `vscode-eslint-language-server` supports monorepos by default. It will automatically find the config file corresponding to the package you are working on. You can use different configs in different packages.
---- This works without the need of spawning multiple instances of `vscode-eslint-language-server`.
---- You can use a different version of ESLint in each package, but it is recommended to use the same version of ESLint in all packages. The location of the ESLint binary will be determined automatically.
----
---- /!\ When using flat config files, you need to use them across all your packages in your monorepo, as it's a global setting for the server.
-
 local util = require("lspconfig.util")
 local lsp = vim.lsp
 
@@ -135,7 +94,7 @@ return {
 		quiet = false,
 		onIgnoredFiles = "off",
 		rulesCustomizations = {},
-		run = "onType",
+		run = "onSave",
 		problems = {
 			shortenToSingleLine = false,
 		},

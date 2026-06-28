@@ -47,6 +47,11 @@ autocmd("LspAttach", {
 		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
 		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
 
+		-- inlay hints toggle
+		map("n", "<leader>lh", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = e.buf }))
+		end, "Toggle inlay hints")
+
 		-- LSP control
 		map("n", "<leader>lq", ":LspStop<CR>", "LSP stop")
 		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
