@@ -35,7 +35,7 @@ return {
 					"misspell", -- generic spell-check formatter
 					"prettier", -- web (css/html/json/yaml/md/...)
 					"prettierd", -- web (js/ts)
-					"ruff", -- python linter/formatter (also serves as LSP via `ruff server`)
+					-- ruff: install via `uv tool install ruff` (Mason can't pip-install on PEP 668 systems)
 				},
 			},
 		},
