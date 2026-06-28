@@ -73,6 +73,23 @@ return {
 					C = MiniExtra.gen_ai_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
 				},
 			})
+
+			vim.api.nvim_create_user_command("MiniAiHelp", function()
+				vim.notify(table.concat({
+					"── mini.ai text objects ──────────────",
+					"  f   function (treesitter)",
+					"  C   class (treesitter)",
+					"  a   argument / parameter",
+					"  t   HTML/XML tag",
+					"  b   bracket (any of [{()",
+					"  q   quote (any of \"\\'`)",
+					"  ?   prompt for a custom delimiter",
+					"  )]} standard bracket pairs",
+					"  \"'` standard quote pairs",
+					"",
+					"Usage: [count][a|i]<obj>  e.g. vaf, dif, ci)",
+				}, "\n"), vim.log.levels.INFO, { title = "mini.ai" })
+			end, { desc = "Show mini.ai text object cheatsheet" })
 		end,
 	},
 	{
