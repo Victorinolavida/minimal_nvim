@@ -7,11 +7,10 @@ return {
 		{ "<leader>fW" }, { "<leader>fr" }, { "<leader>fh" }, { "<leader>fa" }, { "<leader>fl" },
 	},
 	config = function()
-		--config  trouble
 		local trouble = require("trouble.sources.telescope")
 		require("telescope").setup({
 			defaults = {
-				ignore_patterns = {
+				file_ignore_patterns = {
 					"node_modules",
 					"__pycache__",
 					".git",
@@ -49,7 +48,6 @@ return {
 			builtin.grep_string({ search = vim.fn.input("Grep > ") })
 		end, { desc = "find files with grep" })
 
-		-- ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs,--no-ignore,--follow,--glob,!.git,--glob,!node_modules,--glob,!tmp,--glob,!build<CR>",
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
 		vim.keymap.set("n", "<leader>fa", function()
 			builtin.find_files({
