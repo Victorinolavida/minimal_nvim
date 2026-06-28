@@ -1,15 +1,18 @@
 return {
 	"nvim-neotest/neotest",
+	keys = {
+		{ "<leader>nt" }, { "<leader>nd" }, { "<leader>nf" }, { "<leader>na" },
+		{ "<leader>ns" }, { "<leader>no" }, { "<leader>nO" }, { "<leader>nS" },
+		{ "]n" }, { "[n" },
+	},
 	dependencies = {
 		"nvim-neotest/nvim-nio",
 		"nvim-lua/plenary.nvim",
-		"antoinemadec/FixCursorHold.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-neotest/neotest-go",
 	},
 	config = function()
 		local neotest = require("neotest")
-		-- local wk = require("which-key")
 
 		neotest.setup({
 			adapters = {
@@ -18,9 +21,6 @@ return {
 				}),
 			},
 		})
-
-		-- register <leader>n as a named group so which-key shows it
-		-- wk.add({ { "<leader>n", group = "Neotest" } })
 
 		vim.keymap.set("n", "<leader>nt", function()
 			neotest.run.run()

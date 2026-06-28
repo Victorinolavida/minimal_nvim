@@ -1,6 +1,15 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
+		keys = {
+			{ "<leader>Db", desc = "Toggle breakpoint" },
+			{ "<leader>Dc", desc = "Continue / Start" },
+			{ "<leader>Ds", desc = "Step over" },
+			{ "<leader>Di", desc = "Step into" },
+			{ "<leader>Do", desc = "Step out" },
+			{ "<leader>Du", desc = "Toggle DAP UI" },
+			{ "<leader>Dt", desc = "Debug test (Go)" },
+		},
 		dependencies = {
 			{
 				"rcarriga/nvim-dap-ui",
@@ -43,7 +52,6 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-			-- local wk = require("which-key")
 
 			-- Emacs `M-x compile` style args prompt: pre-fills the minibuffer
 			-- with your last run (persisted to disk so it survives restarts),
@@ -93,7 +101,7 @@ return {
 
 			-- Find the main package to debug. Auto-detects the common Go
 			-- layouts (cmd/<app>/main.go, cmd/main.go, ./main.go); if there
-			-- are several, prompts you to pick.
+			-- are several, prompts you to pick via vim.ui.select.
 			local function pick_program()
 				local root = module_root()
 				local mains = vim.fn.glob(root .. "/**/main.go", false, true)
@@ -108,9 +116,16 @@ return {
 				elseif #dirs == 1 then
 					return dirs[1]
 				end
-				local choice = require("dap.ui").pick_one_sync(dirs, "Debug which main package?", function(d)
-					return vim.fn.fnamemodify(d, ":.") -- show path relative to cwd
+				-- nvim-dap runs program functions inside a coroutine, so we can
+				-- yield here and resume once vim.ui.select calls back.
+				local co = coroutine.running()
+				vim.ui.select(dirs, {
+					prompt = "Debug which main package?",
+					format_item = function(d) return vim.fn.fnamemodify(d, ":.") end,
+				}, function(choice)
+					coroutine.resume(co, choice)
 				end)
+				local choice = coroutine.yield()
 				return choice or require("dap").ABORT
 			end
 
@@ -118,7 +133,8 @@ return {
 			-- dap.continue, so the arg sets you use often live here as a menu
 			-- instead of being retyped. Add a new preset by copying a block
 			-- and giving it a name + args.
-			vim.list_extend(dap.configurations.go or {}, {
+			dap.configurations.go = dap.configurations.go or {}
+			vim.list_extend(dap.configurations.go, {
 				{
 					-- auto-finds main.go (root, cmd/main.go, cmd/<app>/main.go);
 					-- prompts to pick when there's more than one. cwd is the
@@ -143,17 +159,7 @@ return {
 					args = prompt_args("go-main"),
 					console = "integratedTerminal",
 				},
-				{
-					-- fallback: debug whatever package the open file lives in
-					type = "go",
-					name = "Debug current file's package",
-					request = "launch",
-					program = "${fileDirname}",
-				},
 			})
-
-			-- register <leader>D as a named group so which-key shows it
-			-- wk.add({ { "<leader>D", group = "Debug" } })
 
 			-- breakpoints
 			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })

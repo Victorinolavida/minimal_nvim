@@ -34,7 +34,6 @@ vim.opt.cursorline = true
 
 vim.opt.completeopt = "menuone,noselect,fuzzy,nosort"
 vim.opt.shortmess:append("c")
-vim.opt.scrolloff = 8
 
 vim.opt.colorcolumn = "0"
 

@@ -10,9 +10,6 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- Error go
 vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>", { desc = "[e]rror golang" })
 
--- format
-vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "[f]ormat" })
-
 -- yank selection to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 --yank current line to clipboard
@@ -35,9 +32,6 @@ local function toggle_char_eol(char)
 	end
 end
 vim.keymap.set({ "n", "v" }, "<C-;>", toggle_char_eol(";"), { desc = "Toggle ; at eol" })
-
--- restart lsp
--- vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
 -- move lines
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -65,26 +59,6 @@ vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
 -- re-size window
 vim.keymap.set("n", "<leader>>", "<C-w>>", opts)
 vim.keymap.set("n", "<leader><", "<C-w><", opts)
-
--- Go filetype keymaps
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = "go",
--- 	callback = function(ev)
--- 		local buf = ev.buf
--- 		vim.keymap.set("n", "<leader>gr", "<cmd>!go run %<CR>", { buffer = buf, desc = "[g]o [r]un file" })
--- 		vim.keymap.set("n", "<leader>gt", "<cmd>!go test ./...<CR>", { buffer = buf, desc = "[g]o [t]est all" })
--- 		vim.keymap.set("n", "<leader>gT", "<cmd>!go test %:h<CR>", { buffer = buf, desc = "[g]o [T]est package" })
--- 		vim.keymap.set("n", "<leader>gb", "<cmd>!go build ./...<CR>", { buffer = buf, desc = "[g]o [b]uild" })
--- 		vim.keymap.set("n", "<leader>ga", function()
--- 			local file = vim.fn.expand("%")
--- 			if file:match("_test%.go$") then
--- 				vim.cmd("edit " .. file:gsub("_test%.go$", ".go"))
--- 			else
--- 				vim.cmd("edit " .. file:gsub("%.go$", "_test.go"))
--- 			end
--- 		end, { buffer = buf, desc = "[g]o [a]lternate test/impl" })
--- 	end,
--- })
 
 -- move between quickfix list
 vim.keymap.set("n", "<leader>cn", ":cnext<CR>zz", { noremap = true, silent = true })

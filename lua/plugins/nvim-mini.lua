@@ -47,11 +47,9 @@ return {
 		end,
 	},
 	{
-
 		"nvim-mini/mini.files",
 		version = false,
 		config = function()
-			-- mini files ----
 			local MiniFiles = require("mini.files")
 			MiniFiles.setup({
 				mappings = {

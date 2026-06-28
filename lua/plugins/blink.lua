@@ -1,5 +1,6 @@
 return {
 	"saghen/blink.cmp",
+	event = "InsertEnter",
 	dependencies = { "nvim-mini/mini.snippets" },
 	version = "1.*",
 	---@module 'blink.cmp'

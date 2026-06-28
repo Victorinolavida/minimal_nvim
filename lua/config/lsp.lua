@@ -41,6 +41,7 @@ autocmd("LspAttach", {
 		end, "List workspace folders")
 		map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+		map("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
 		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
 		-- move between diagnostics ([prev, ]next is the convention)
@@ -67,7 +68,7 @@ autocmd("LspProgress", {
 	---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
 	callback = function(ev)
 		local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-		vim.notify(vim.lsp.status(), "info", {
+		vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
 			id = "lsp_progress",
 			title = "LSP Progress",
 			opts = function(notif)
