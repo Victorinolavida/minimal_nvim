@@ -65,12 +65,12 @@ return {
 		"nvim-mini/mini.ai",
 		dependencies = { "nvim-mini/mini.extra" },
 		config = function()
-			local MiniExtra = require("mini.extra")
-			require("mini.ai").setup({
+			local MiniAi = require("mini.ai")
+			MiniAi.setup({
 				custom_textobjects = {
 					-- treesitter-based: `af`/`if` for functions, `aC`/`iC` for classes
-					f = MiniExtra.gen_ai_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
-					C = MiniExtra.gen_ai_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+					f = MiniAi.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+					C = MiniAi.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
 				},
 			})
 

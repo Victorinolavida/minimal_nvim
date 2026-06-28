@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { "rafamadriz/friendly-snippets", "L3MON4D3/LuaSnip" },
+	dependencies = { "nvim-mini/mini.snippets", "rafamadriz/friendly-snippets" },
 	version = "1.*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
@@ -20,7 +20,7 @@ return {
 			accept = { auto_brackets = { enabled = true } },
 			documentation = { auto_show = true },
 		},
-		snippets = { preset = "luasnip" },
+		snippets = { preset = "mini.snippets" },
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
 		},

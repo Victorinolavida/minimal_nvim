@@ -47,6 +47,6 @@ return {
 		image = { enabled = false },
 		zen = { enabled = true },
 		dim = { enabled = false },
-		scope = { enable = true },
+		scope = { enabled = true },
 	},
 }
