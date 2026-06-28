@@ -145,10 +145,7 @@ return {
 					request = "launch",
 					program = pick_program,
 					cwd = module_root,
-					-- run in a real terminal so interactive CLIs that read
-					-- stdin (menus, prompts) work instead of hitting EOF
-					-- and exiting immediately
-					console = "integratedTerminal",
+					console = "internalConsole",
 				},
 				{
 					type = "go",
@@ -157,7 +154,7 @@ return {
 					program = pick_program,
 					cwd = module_root,
 					args = prompt_args("go-main"),
-					console = "integratedTerminal",
+					console = "internalConsole",
 				},
 			})
 
