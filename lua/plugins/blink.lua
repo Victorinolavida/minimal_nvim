@@ -20,7 +20,7 @@ return {
 			accept = { auto_brackets = { enabled = true } },
 			documentation = { auto_show = true },
 		},
-		snippets = { preset = "mini.snippets" },
+		snippets = { preset = "mini_snippets" },
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
 		},
