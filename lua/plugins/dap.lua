@@ -2,6 +2,7 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		keys = {
+			{ "<leader>DC", desc = "Debug compose (./program -- args)" },
 			{ "<leader>Db", desc = "Toggle breakpoint" },
 			{ "<leader>Dc", desc = "Continue / Start" },
 			{ "<leader>Ds", desc = "Step over" },
@@ -19,6 +20,9 @@ return {
 					dapui.setup()
 					local dap = require("dap")
 					dap.listeners.after.event_initialized["dapui_config"] = function()
+						dapui.open()
+					end
+					dap.listeners.after.event_continued["dapui_config"] = function()
 						dapui.open()
 					end
 					dap.listeners.before.event_terminated["dapui_config"] = function()
@@ -53,6 +57,10 @@ return {
 		config = function()
 			local dap = require("dap")
 
+			-- nvim-dap internal log → ~/.cache/nvim/dap.log
+			-- levels: TRACE > DEBUG > INFO > WARN > ERROR
+			dap.set_log_level("DEBUG")
+
 			-- Emacs `M-x compile` style args prompt: pre-fills the minibuffer
 			-- with your last run (persisted to disk so it survives restarts),
 			-- lets you edit the whole line, and splits it quote-aware so
@@ -84,8 +92,36 @@ return {
 					local input = vim.fn.input({ prompt = "Args: ", default = prev })
 					history[key] = input
 					save_args(history)
-					-- quote-aware split: "--name \"John Doe\"" -> one arg
 					return require("dap.utils").splitstr(vim.trim(input))
+				end
+			end
+
+			-- Returns a raw string (for buildFlags: "-tags integration")
+			local function prompt_string(key, label)
+				return function()
+					local history = load_args()
+					local prev = history[key] or ""
+					local input = vim.fn.input({ prompt = label .. ": ", default = prev })
+					history[key] = input
+					save_args(history)
+					return vim.trim(input)
+				end
+			end
+
+			-- Parses "KEY=val FOO=bar" into { KEY = "val", FOO = "bar" }
+			local function prompt_env(key)
+				return function()
+					local history = load_args()
+					local prev = history[key] or ""
+					local input = vim.fn.input({ prompt = "Env (KEY=val ...): ", default = prev })
+					history[key] = input
+					save_args(history)
+					local env = {}
+					for pair in vim.trim(input):gmatch("%S+") do
+						local k, v = pair:match("^([^=]+)=(.*)$")
+						if k then env[k] = v end
+					end
+					return env
 				end
 			end
 
@@ -138,25 +174,76 @@ return {
 				{
 					-- auto-finds main.go (root, cmd/main.go, cmd/<app>/main.go);
 					-- prompts to pick when there's more than one. cwd is the
-					-- module root so relative paths (nodes.json, seed.json,
-					-- logs/ etc.) the program opens actually resolve.
+					-- module root so relative paths resolve correctly.
 					type = "go",
-					name = "Debug main (auto-detect)",
+					name = "Debug main",
 					request = "launch",
 					program = pick_program,
 					cwd = module_root,
-					console = "internalConsole",
+					env = { CGO_ENABLED = "0", NO_COLOR = "1" },
+					stopOnEntry = false,
+					outputMode = "remote",
 				},
 				{
+					-- Prompt for env vars as "KEY=val FOO=bar" — useful for
+					-- API keys, feature flags, DSNs without touching .env files.
 					type = "go",
-					name = "Debug main (auto-detect + args)",
+					name = "Debug main + env",
 					request = "launch",
 					program = pick_program,
 					cwd = module_root,
-					args = prompt_args("go-main"),
-					console = "internalConsole",
+					env = prompt_env("go-env"),
+					stopOnEntry = false,
+					outputMode = "remote",
+				},
+				{
+					-- Prompt for build flags — useful for "-tags integration",
+					-- "-tags debug", etc. without changing go.mod or Makefile.
+					type = "go",
+					name = "Debug main + build flags",
+					request = "launch",
+					program = pick_program,
+					cwd = module_root,
+					buildFlags = prompt_string("go-buildflags", "Build flags (-tags foo)"),
+					stopOnEntry = false,
+					outputMode = "remote",
 				},
 			})
+
+			-- Compose launch: type "./cmd/server -- --port 8080" in one prompt.
+			-- Everything before " -- " is the program; everything after is args.
+			-- Persists last value so re-running needs just <Enter>.
+			vim.keymap.set("n", "<leader>DC", function()
+				local history = load_args()
+				local prev = history["go-compose"] or "./"
+				local input = vim.fn.input({ prompt = "dlv> ", default = prev })
+				local trimmed = vim.trim(input)
+				if trimmed == "" then return end
+				history["go-compose"] = trimmed
+				save_args(history)
+
+				local program, args
+				local sep = trimmed:find(" %-%- ")
+				if sep then
+					program = vim.trim(trimmed:sub(1, sep - 1))
+					args = require("dap.utils").splitstr(vim.trim(trimmed:sub(sep + 4)))
+				else
+					program = trimmed
+					args = nil
+				end
+
+				dap.run({
+					type = "go",
+					request = "launch",
+					name = "Debug (compose)",
+					program = program,
+					cwd = module_root(),
+					args = args,
+					env = { CGO_ENABLED = "0", NO_COLOR = "1" },
+					stopOnEntry = false,
+					outputMode = "remote",
+				})
+			end, { desc = "Debug compose (./program -- args)" })
 
 			-- breakpoints
 			vim.keymap.set("n", "<leader>Db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })

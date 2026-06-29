@@ -24,6 +24,16 @@ return {
 					MiniSnippets.gen_loader.from_lang(),
 				},
 			})
+			-- Stop the snippet session as soon as we jump to the final tabstop ($0)
+			-- so the ∎ marker doesn't linger until Escape/next edit.
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniSnippetsSessionJump",
+				callback = function(args)
+					if args.data.tabstop_to == "0" then
+						MiniSnippets.session.stop()
+					end
+				end,
+			})
 		end,
 	},
 	{
