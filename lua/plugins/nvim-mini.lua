@@ -69,7 +69,16 @@ return {
 					go_out_plus = "H",
 				},
 			})
-			vim.keymap.set("n", "-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Toggle mini file explorer" })
+			vim.keymap.set("n", "-", function()
+				-- open at the current file's folder (with it focused); fall back
+				-- to the cwd for unnamed/non-file buffers.
+				local fname = vim.api.nvim_buf_get_name(0)
+				if fname ~= "" and vim.uv.fs_stat(fname) then
+					MiniFiles.open(fname, false)
+				else
+					MiniFiles.open()
+				end
+			end, { desc = "Toggle mini file explorer (at current file)" })
 			vim.keymap.set("n", "<leader>-", function()
 				MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
 			end, { desc = "Open explorer at current file" })
