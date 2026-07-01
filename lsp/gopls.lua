@@ -94,10 +94,13 @@ local function get_root_dir(fname)
 		local ok, lines = pcall(vim.fn.readfile, work_root .. "/go.work")
 		if ok then
 			for _, line in ipairs(lines) do
-				local rel = line:match("^%s*use%s+[\"']?(%S-)[\"']?%s*$")
+				local path = line:match("^%s*use%s+[\"']?(%S-)[\"']?%s*$")
 					or line:match("^%s*[\"']?(%.%S-)[\"']?%s*$") -- entry inside a use ( ... ) block
-				if rel then
-					local abs = vim.fs.normalize(work_root .. "/" .. rel)
+				if path then
+					-- `use` paths are normally relative to the go.work dir, but
+					-- may be absolute; only join relative ones.
+					local abs = path:sub(1, 1) == "/" and vim.fs.normalize(path)
+						or vim.fs.normalize(work_root .. "/" .. path)
 					if abs == vim.fs.normalize(mod_root) then
 						uses_module = true
 						break
