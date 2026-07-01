@@ -10,6 +10,13 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.INFO] = "",
 			[vim.diagnostic.severity.HINT] = "",
 		},
+		-- colour the line number itself (not just the sign) per severity
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+			[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+			[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+			[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+		},
 	},
 	underline = true,
 	severity_sort = true,
