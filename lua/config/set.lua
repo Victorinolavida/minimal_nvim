@@ -1,4 +1,12 @@
 vim.opt.guicursor = ""
+
+-- Force truecolor. Outside tmux nvim auto-detects it via $COLORTERM, but tmux
+-- doesn't propagate that and the tmux-256color terminfo has no truecolor flag,
+-- so without this the colorscheme falls back to 256-color inside tmux and
+-- looks like the config didn't load. tmux passes RGB through via its own
+-- `terminal-overrides ",*256col*:Tc"`.
+vim.opt.termguicolors = true
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_banner = 0

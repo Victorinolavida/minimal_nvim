@@ -76,7 +76,44 @@ local function get_root_dir(fname)
 			return clients[#clients].config.root_dir
 		end
 	end
-	return vim.fs.root(fname, "go.work") or vim.fs.root(fname, "go.mod") or vim.fs.root(fname, ".git")
+
+	-- Honour `GOWORK=off`: skip go.work discovery entirely so a project is
+	-- scoped to its own module.
+	local gowork_off = vim.trim(vim.fn.getenv("GOWORK") or "") == "off"
+
+	local mod_root = vim.fs.root(fname, "go.mod")
+	local work_root = not gowork_off and vim.fs.root(fname, "go.work") or nil
+
+	-- A go.work found above this file only counts if it actually `use`s this
+	-- file's module. Otherwise it's a stray go.work in a shared parent dir
+	-- (e.g. above several unrelated projects), and honouring it would merge
+	-- them into one workspace and leak imports across projects. In that case
+	-- fall back to the module's own root so gopls stays scoped.
+	if work_root and mod_root and work_root ~= mod_root then
+		local uses_module = false
+		local ok, lines = pcall(vim.fn.readfile, work_root .. "/go.work")
+		if ok then
+			for _, line in ipairs(lines) do
+				local path = line:match("^%s*use%s+[\"']?(%S-)[\"']?%s*$")
+					or line:match("^%s*[\"']?(%.%S-)[\"']?%s*$") -- entry inside a use ( ... ) block
+				if path then
+					-- `use` paths are normally relative to the go.work dir, but
+					-- may be absolute; only join relative ones.
+					local abs = path:sub(1, 1) == "/" and vim.fs.normalize(path)
+						or vim.fs.normalize(work_root .. "/" .. path)
+					if abs == vim.fs.normalize(mod_root) then
+						uses_module = true
+						break
+					end
+				end
+			end
+		end
+		if not uses_module then
+			return mod_root
+		end
+	end
+
+	return work_root or mod_root or vim.fs.root(fname, ".git")
 end
 
 ---@type vim.lsp.Config
@@ -104,6 +141,10 @@ return {
 			usePlaceholders = true,
 			completeUnimported = true,
 			completeFunctionCalls = true,
+			-- Keep gopls' view scoped to the project and off noisy dirs, so
+			-- unimported-completion doesn't surface packages from unrelated
+			-- trees that happen to sit nearby.
+			directoryFilters = { "-.git", "-node_modules", "-.devbox" },
 			hints = {
 				assignVariableTypes = true,
 				compositeLiteralFields = true,
