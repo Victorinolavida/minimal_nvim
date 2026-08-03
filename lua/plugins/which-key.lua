@@ -7,7 +7,7 @@ return {
 		spec = {
 			{ "<leader>D", group = "DAP" },
 			{ "<leader>n", group = "Neotest" },
-			{ "<leader>f", group = "Find (Telescope)" },
+			{ "<leader>f", group = "Find" },
 			{ "<leader>l", group = "LSP" },
 			{ "<leader>g", group = "Git" },
 			{ "<leader>w", group = "Workspace" },

@@ -47,9 +47,10 @@ return {
 					return
 				end
 
-				-- replicate `fold = { enable = true }`
-				-- vim.wo.foldmethod = 'expr'
-				-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+				-- replicate `fold = { enable = true }` (this replaces nvim-ufo;
+				-- foldlevel/foldenable live in config/set.lua)
+				vim.wo.foldmethod = "expr"
+				vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 				-- replicate `highlight = { enable = true }`
 				vim.treesitter.start(buf, language)

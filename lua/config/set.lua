@@ -45,6 +45,30 @@ vim.opt.shortmess:append("c")
 
 vim.opt.colorcolumn = "0"
 
+-- Folding. The expression itself is set per-buffer in the treesitter FileType
+-- autocmd; these just make sure files open fully unfolded (zc/za to fold,
+-- zR/zM for all).
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
+-- Tabline: `<n> <filename>` per tab, current one highlighted. `%<n>T` makes
+-- each label mouse-clickable.
+function _G.tabline()
+	local current = vim.api.nvim_get_current_tabpage()
+	local parts = {}
+	for i, tab in ipairs(vim.api.nvim_list_tabpages()) do
+		local buf = vim.api.nvim_win_get_buf(vim.api.nvim_tabpage_get_win(tab))
+		local name = vim.api.nvim_buf_get_name(buf)
+		name = name ~= "" and vim.fn.fnamemodify(name, ":t") or "[No Name]"
+		local hl = tab == current and "%#TabLineSel#" or "%#TabLine#"
+		parts[#parts + 1] = ("%s%%%dT %d %s %%T"):format(hl, i, i, name)
+	end
+	return table.concat(parts) .. "%#TabLineFill#"
+end
+
+vim.opt.tabline = "%!v:lua.tabline()"
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	callback = function()

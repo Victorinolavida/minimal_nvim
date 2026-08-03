@@ -44,49 +44,23 @@ return {
 	},
 	{
 		"nvim-mini/mini.diff",
-		dependencies = {
-			"tpope/vim-fugitive",
-		},
 		config = function()
 			local MiniDiff = require("mini.diff")
 			MiniDiff.setup({
 				source = MiniDiff.gen_source.git(),
 			})
-			vim.keymap.set("n", "<leader>gg", "<cmd>tabnew | Git | only<cr>", { desc = "Fugitive Full Page New Tab" })
-			vim.keymap.set("n", "<leader>gd", "<cmd>Gvdiffsplit<CR>", { desc = "Git diff split" })
-		end,
-	},
-	{
-		"nvim-mini/mini.files",
-		version = false,
-		config = function()
-			local MiniFiles = require("mini.files")
-			MiniFiles.setup({
-				mappings = {
-					go_in = "<CR>",
-					go_in_plus = "L",
-					go_out = "_",
-					go_out_plus = "H",
-				},
-			})
-			vim.keymap.set("n", "-", function()
-				-- open at the current file's folder (with it focused); fall back
-				-- to the cwd for unnamed/non-file buffers.
-				local fname = vim.api.nvim_buf_get_name(0)
-				if fname ~= "" and vim.uv.fs_stat(fname) then
-					MiniFiles.open(fname, false)
-				else
-					MiniFiles.open()
-				end
-			end, { desc = "Toggle mini file explorer (at current file)" })
-			vim.keymap.set("n", "<leader>-", function()
-				MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-			end, { desc = "Open explorer at current file" })
+			-- Full-screen git UI (was `:Git` in a new tab via fugitive).
+			vim.keymap.set("n", "<leader>gg", function()
+				Snacks.lazygit()
+			end, { desc = "Git (lazygit)" })
+			-- Inline diff of the working tree against the index, in-buffer
+			-- (was `:Gvdiffsplit`). Toggle again to hide.
+			vim.keymap.set("n", "<leader>gd", MiniDiff.toggle_overlay, { desc = "Git diff overlay" })
 		end,
 	},
 	{
 		"nvim-mini/mini.ai",
-		dependencies = { "nvim-mini/mini.extra", "nvim-treesitter/nvim-treesitter-textobjects" },
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		config = function()
 			local MiniAi = require("mini.ai")
 			MiniAi.setup({
@@ -113,25 +87,6 @@ return {
 					"Usage: [count][a|i]<obj>  e.g. vaf, dif, ci)",
 				}, "\n"), vim.log.levels.INFO, { title = "mini.ai" })
 			end, { desc = "Show mini.ai text object cheatsheet" })
-		end,
-	},
-	{
-		"nvim-mini/mini.extra",
-		dependencies = {
-			"nvim-mini/mini.pick",
-		},
-		version = false,
-		config = function()
-			local MiniPick = require("mini.pick")
-			local MiniExtra = require("mini.extra")
-			MiniPick.setup()
-			MiniExtra.setup()
-			vim.keymap.set("n", "<leader>xx", function()
-				MiniExtra.pickers.diagnostic()
-			end, { desc = "Mini Picker Diagnostics" })
-			vim.keymap.set("n", "<leader>pk", function()
-				MiniExtra.pickers.keymaps()
-			end, { desc = "Search keymaps" })
 		end,
 	},
 }

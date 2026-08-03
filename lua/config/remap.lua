@@ -72,7 +72,7 @@ end, { desc = "Toggle Builtin Undotree" })
 vim.keymap.set("n", "<leader>re", "<cmd>restart<cr>", { desc = "Restart config :restart)" })
 
 -- ── VS Code (vscode-neovim) ────────────────────────────────────────────────
--- Mirrors telescope/window keymaps so muscle memory works inside VS Code.
+-- Mirrors the picker/window keymaps so muscle memory works inside VS Code.
 if vim.g.vscode then
   local vscode = require("vscode")
   local map = function(key, cmd, desc)
