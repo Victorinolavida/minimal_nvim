@@ -1,6 +1,43 @@
 local autogroup = vim.api.nvim_create_augroup("lsp_config", {})
 local autocmd = vim.api.nvim_create_autocmd
 
+local M = {}
+
+-- Re-apply our own lsp/*.lua on top of nvim-lspconfig's.
+--
+-- Neovim merges every `lsp/<name>.lua` found on the runtimepath in rtp order,
+-- with LATER entries winning (see `vim/lsp.lua`, "Resolve configs from
+-- lsp/*.lua"). Our config dir comes first and nvim-lspconfig second, so
+-- lspconfig's copy of a server silently overrides ours — e.g. our gopls
+-- `root_dir` (the go.work scoping fix) never ran.
+--
+-- Calls to `vim.lsp.config()` from outside an `lsp/` file have higher
+-- precedence than any rtp file, so loading ours again through that API puts
+-- them back on top. lspconfig then only fills in keys we don't define, which
+-- is what we want it for.
+--
+-- Must run AFTER lazy.nvim's setup: lsp/eslint.lua and lsp/tailwindcss.lua
+-- `require("lspconfig.util")` at load time.
+--
+-- Caveat: the merge is `tbl_deep_extend("force", …)`, which merges list-like
+-- fields index-by-index rather than replacing them. If lspconfig lists more
+-- entries than we do for `cmd`/`filetypes`/`root_markers`, its extra trailing
+-- entries survive. Check with `:checkhealth vim.lsp` if a server misbehaves.
+function M.apply_local_configs()
+	local config_dir = vim.fn.stdpath("config") .. "/lsp/"
+	for _, path in ipairs(vim.api.nvim_get_runtime_file("lsp/*.lua", true)) do
+		if vim.startswith(path, config_dir) then
+			local name = vim.fn.fnamemodify(path, ":t:r")
+			local ok, config = pcall(dofile, path)
+			if ok and type(config) == "table" then
+				vim.lsp.config(name, config)
+			elseif not ok then
+				vim.notify(("[lsp] failed to load %s: %s"):format(path, config), vim.log.levels.ERROR)
+			end
+		end
+	end
+end
+
 -- Diagnostic signs in the gutter (aside the line number) + underline in the buffer
 vim.diagnostic.config({
 	signs = {
@@ -48,12 +85,18 @@ autocmd("LspAttach", {
 		end, "List workspace folders")
 		map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-		map("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
+		map("n", "<leader>F", function()
+			vim.lsp.buf.format({ async = true })
+		end, "Format buffer")
 		map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
 
 		-- move between diagnostics ([prev, ]next is the convention)
-		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
-		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
+		map("n", "[d", function()
+			vim.diagnostic.jump({ count = -1 })
+		end, "Previous diagnostic")
+		map("n", "]d", function()
+			vim.diagnostic.jump({ count = 1 })
+		end, "Next diagnostic")
 
 		-- inlay hints toggle
 		map("n", "<leader>lh", function()
@@ -64,7 +107,6 @@ autocmd("LspAttach", {
 		map("n", "<leader>lq", ":LspStop<CR>", "LSP stop")
 		map("n", "<leader>lr", ":LspRestart<CR>", "LSP restart")
 		map("n", "<leader>li", ":LspInfo<CR>", "LSP info")
-
 	end,
 })
 
@@ -86,3 +128,4 @@ autocmd("LspProgress", {
 	end,
 })
 
+return M

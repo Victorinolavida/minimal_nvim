@@ -15,9 +15,11 @@ return {
 			"dockerls",
 			"docker_compose_language_service",
 		},
-		-- tailwindcss and jdtls are heavy/situational — enable manually per project
+		-- tailwindcss and jdtls are heavy/situational — enable manually per project.
+		-- stylua is a formatter, but lspconfig ships an lsp/stylua.lua (`stylua --lsp`),
+		-- so installing it for conform also auto-attached it as a second Lua client.
 		automatic_enable = {
-			exclude = { "tailwindcss", "jdtls" },
+			exclude = { "tailwindcss", "jdtls", "stylua" },
 		},
 	},
 	dependencies = {
@@ -35,7 +37,7 @@ return {
 					"misspell", -- generic spell-check formatter
 					"prettier", -- web (css/html/json/yaml/md/...)
 					"prettierd", -- web (js/ts)
-					-- ruff: install via `uv tool install ruff` (Mason can't pip-install on PEP 668 systems)
+					"ruff", -- python (lints + formats; Mason installs it into its own venv)
 				},
 			},
 		},

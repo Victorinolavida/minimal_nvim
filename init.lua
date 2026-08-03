@@ -43,3 +43,8 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true, notify = false },
 })
+
+-- Our lsp/*.lua would otherwise be overridden by nvim-lspconfig's copies of the
+-- same servers. Re-applying them here restores our settings; must come after
+-- lazy.setup() so `require("lspconfig.util")` resolves.
+require("config.lsp").apply_local_configs()

@@ -78,8 +78,10 @@ local function get_root_dir(fname)
 	end
 
 	-- Honour `GOWORK=off`: skip go.work discovery entirely so a project is
-	-- scoped to its own module.
-	local gowork_off = vim.trim(vim.fn.getenv("GOWORK") or "") == "off"
+	-- scoped to its own module. Note `vim.env` rather than `vim.fn.getenv`:
+	-- the latter returns `vim.NIL` (userdata, truthy) when unset, so `or ""`
+	-- would not catch it and `vim.trim` would throw.
+	local gowork_off = vim.trim(vim.env.GOWORK or "") == "off"
 
 	local mod_root = vim.fs.root(fname, "go.mod")
 	local work_root = not gowork_off and vim.fs.root(fname, "go.work") or nil
