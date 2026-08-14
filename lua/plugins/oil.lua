@@ -1,9 +1,3 @@
--- Replaces mini.files as the file explorer. Oil edits a directory as a normal
--- buffer: rename/move/delete by editing lines, `:w` to apply.
---
--- Keymaps:
--- -          Open the current file's directory (`_` from oil goes up)
--- <leader>-  Same, in a floating window
 -- <CR>       Open entry            g?  Show all oil mappings
 return {
 	"stevearc/oil.nvim",

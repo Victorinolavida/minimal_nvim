@@ -1,5 +1,3 @@
--- Directories that should never appear in file/grep results. Shared by every
--- picker below so `<leader>ff` and `<leader>fl` agree on what "the project" is.
 local exclude = {
 	".git",
 	"node_modules",
