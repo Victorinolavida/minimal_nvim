@@ -47,6 +47,41 @@ return {
 				},
 			})
 			MiniSnippets.start_lsp_server({ match = false })
+
+			-- mini.snippets marks empty tabstops with inline virtual text ("•"/"∎"),
+			-- cleared only when the session stops. Its default autostop is narrow
+			-- (final tabstop current + an edit or Normal mode), and jumping wraps past
+			-- the final tabstop rather than ending, so abandoned sessions leave the
+			-- markers on screen. Stop eagerly instead.
+			local group = vim.api.nvim_create_augroup("mini_snippets_autostop", {})
+
+			-- Reaching the final tabstop means the snippet is done.
+			vim.api.nvim_create_autocmd("User", {
+				group = group,
+				pattern = "MiniSnippetsSessionJump",
+				callback = function(args)
+					if args.data.tabstop_to == "0" then
+						MiniSnippets.session.stop()
+					end
+				end,
+			})
+
+			-- Leaving Insert mode abandons the session (nested ones included).
+			vim.api.nvim_create_autocmd("User", {
+				group = group,
+				pattern = "MiniSnippetsSessionStart",
+				callback = function()
+					vim.api.nvim_create_autocmd("ModeChanged", {
+						pattern = "*:n",
+						once = true,
+						callback = function()
+							while MiniSnippets.session.get() do
+								MiniSnippets.session.stop()
+							end
+						end,
+					})
+				end,
+			})
 		end,
 	},
 }
