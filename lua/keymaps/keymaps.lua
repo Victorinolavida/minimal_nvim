@@ -48,3 +48,17 @@ vim.keymap.set("n", "<C-a>", "gg<S-v>G", { desc = "select [a]ll lines" })
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "ss", ":split<Return>", opts)
 vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
+
+-- move between windows
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
+
+-- split window
+vim.keymap.set("n", "ss", ":split<Return>", opts)
+vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
+
+vim.keymap.set("n", "te", ":tabedit<Return>", { noremap = true, silent = true, desc = "new [t]ab [e]dit" })
+vim.keymap.set("n", "<tab>", ":tabnext<Return>", opts)
+vim.keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)

@@ -15,6 +15,6 @@ return {
         scope = { enabled = true },
         statuscolumn = { enabled = true },
         words = { enabled = true },
-        zen = { enable = true }
+        -- zen = { enable = true }
     },
 }

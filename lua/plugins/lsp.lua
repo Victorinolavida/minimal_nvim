@@ -39,7 +39,7 @@ return {
         capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities({}, false))
         vim.lsp.config("*", { capabilities = capabilities })
 
-        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Local buffer" })
+        vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "Format Local buffer" })
         vim.keymap.set("n", "df", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
 
         vim.diagnostic.config({ virtual_text = true })
@@ -60,5 +60,16 @@ return {
                 })
             end,
         })
+
+
+        -- float showing the diagnostic under cursor
+        -- vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+        --
+        -- -- jump between diagnostics
+        -- vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
+        -- vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Prev Diagnostic" })
+        --
+        -- -- populate the location/quickfix list
+        -- vim.keymap.set("n", "<leader>xd", vim.diagnostic.setloclist, { desc = "Diagnostics (loclist)" })
     end,
 }
