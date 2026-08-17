@@ -21,7 +21,18 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup()
         require("mason-tool-installer").setup({
-            ensure_installed = { "gopls", "gofumpt", "goimports", "golangci-lint", "delve", "lua_ls" },
+            ensure_installed = { "gopls", "gofumpt", "goimports", "golangci-lint", "delve", "lua_ls",
+                "rust_analyzer",
+                "eslint",
+                "golangci_lint_ls",
+                "pyright",
+                "tailwindcss",
+                "ts_ls",
+                "jdtls",
+                "yamlls",
+                "dockerls",
+                "docker_compose_language_service",
+            },
         })
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -33,7 +44,10 @@ return {
 
         vim.diagnostic.config({ virtual_text = true })
 
+        local grp = vim.api.nvim_create_augroup("lsp_autocmd_format", { clear = true })
+
         vim.api.nvim_create_autocmd('LspAttach', {
+            group = grp,
             callback = function(args)
                 local c = vim.lsp.get_client_by_id(args.data.client_id)
                 if not c then return end
