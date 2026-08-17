@@ -1,87 +1,87 @@
 return {
-	{
-		"nvim-mini/mini.completion",
-		version = false,
-		config = function()
-			require("mini.completion").setup({
-				lsp_completion = {
-					auto_setup = true,
-				},
-			})
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("mini.completion").get_lsp_capabilities())
+    {
+        "nvim-mini/mini.pairs",
+        version = false,
+        config = function()
+            require('mini.pairs').setup()
+        end
+    },
+    {
+        'nvim-mini/mini.surround',
+        version = false,
 
-			vim.lsp.config("*", { capabilities = capabilities })
+        config = function()
+            --            mappings = {
+            --   add = 'sa', -- Add surrounding in Normal and Visual modes
+            --   delete = 'sd', -- Delete surrounding
+            --   find = 'sf', -- Find surrounding (to the right)
+            --   find_left = 'sF', -- Find surrounding (to the left)
+            --   highlight = 'sh', -- Highlight surrounding
+            --   replace = 'sr', -- Replace surrounding
+            --
+            --   suffix_last = 'l', -- Suffix to search with "prev" method
+            --   suffix_next = 'n', -- Suffix to search with "next" method
+            -- },
+            require("mini.surround").setup()
+        end
+    },
+    {
+        'nvim-mini/mini.cmdline',
+        version = false,
 
-			vim.lsp.config("lua_ls", {
-				settings = {
-					Lua = {
-						diagnostics = { globals = { "vim" } },
-					},
-				},
-			})
+        config = function()
+            require('mini.cmdline').setup()
+        end
+    },
+    {
+        'nvim-mini/mini.notify',
+        version = false,
+        config = function()
+            require('mini.notify').setup()
+        end
+    },
+    {
+        'nvim-mini/mini.tabline',
+        version = false,
+        config = function()
+            require('mini.tabline').setup()
+        end
+    },
+    {
+        'nvim-mini/mini.indentscope',
+        version = false,
 
-			-- Prompt buffers (snacks picker input, vim.ui.input) are not code: without
-			-- this, mini.completion pops a buffer-word menu over the picker's own
-			-- results list as soon as you type.
-			vim.api.nvim_create_autocmd("FileType", {
-				group = vim.api.nvim_create_augroup("mini_completion_prompt_off", {}),
-				pattern = { "snacks_picker_input", "snacks_input" },
-				callback = function(args)
-					vim.b[args.buf].minicompletion_disable = true
-				end,
-			})
-		end,
-	},
-	{
-		"nvim-mini/mini.snippets",
-		version = false,
-		-- `gen_loader.from_lang()` reads `snippets/` dirs off the runtimepath; without
-		-- friendly-snippets there is nothing there and no snippet ever expands.
-		dependencies = { "rafamadriz/friendly-snippets" },
-		config = function()
-			local MiniSnippets = require("mini.snippets")
-			MiniSnippets.setup({
-				snippets = {
-					MiniSnippets.gen_loader.from_lang(),
-				},
-			})
-			MiniSnippets.start_lsp_server({ match = false })
+        config = function()
+            require('mini.indentscope').setup()
+        end
+    },
+    {
+        'nvim-mini/mini.hipatterns',
+        version = false,
+        config = function()
+            local hipatterns = require('mini.hipatterns')
+            hipatterns.setup({
+                highlighters = {
+                    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+                    fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+                    hack      = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+                    todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+                    note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
 
-			-- mini.snippets marks empty tabstops with inline virtual text ("•"/"∎"),
-			-- cleared only when the session stops. Its default autostop is narrow
-			-- (final tabstop current + an edit or Normal mode), and jumping wraps past
-			-- the final tabstop rather than ending, so abandoned sessions leave the
-			-- markers on screen. Stop eagerly instead.
-			local group = vim.api.nvim_create_augroup("mini_snippets_autostop", {})
+                    -- Highlight hex color strings (`#rrggbb`) using that color
+                    hex_color = hipatterns.gen_highlighter.hex_color(),
+                },
+            })
+        end
+    },
+    {
+        'nvim-mini/mini.cursorword',
+        version = false,
+        config = function()
+            require('mini.cursorword').setup()
+        end
+    },
 
-			-- Reaching the final tabstop means the snippet is done.
-			vim.api.nvim_create_autocmd("User", {
-				group = group,
-				pattern = "MiniSnippetsSessionJump",
-				callback = function(args)
-					if args.data.tabstop_to == "0" then
-						MiniSnippets.session.stop()
-					end
-				end,
-			})
 
-			-- Leaving Insert mode abandons the session (nested ones included).
-			vim.api.nvim_create_autocmd("User", {
-				group = group,
-				pattern = "MiniSnippetsSessionStart",
-				callback = function()
-					vim.api.nvim_create_autocmd("ModeChanged", {
-						pattern = "*:n",
-						once = true,
-						callback = function()
-							while MiniSnippets.session.get() do
-								MiniSnippets.session.stop()
-							end
-						end,
-					})
-				end,
-			})
-		end,
-	},
+
 }

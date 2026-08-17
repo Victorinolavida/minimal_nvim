@@ -1,14 +1,8 @@
+-- lua/plugins/rose-pine.lua
 return {
-	"rebelot/kanagawa.nvim",
-	lazy = false,
-	priority = 1000,
-	config = function()
-		require("kanagawa").setup({
-			-- "wave" (default dark), "dragon" (darker), "lotus" (light)
-			theme = "wave",
-			commentStyle = { italic = true },
-			keywordStyle = { italic = true },
-		})
-		vim.cmd.colorscheme("kanagawa")
-	end,
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+        vim.cmd("colorscheme rose-pine")
+    end
 }
