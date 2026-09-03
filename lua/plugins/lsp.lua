@@ -27,6 +27,7 @@ return {
                 "golangci_lint_ls",
                 "pyright",
                 "tailwindcss",
+                "clangd",
                 "ts_ls",
                 "jdtls",
                 "yamlls",
