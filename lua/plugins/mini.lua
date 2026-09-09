@@ -44,7 +44,8 @@ return {
         'nvim-mini/mini.tabline',
         version = false,
         config = function()
-            require('mini.tabline').setup()
+            local tabline = require('mini.tabline')
+            tabline.setup()
         end
     },
     {
