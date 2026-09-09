@@ -37,15 +37,9 @@ return {
         'nvim-mini/mini.notify',
         version = false,
         config = function()
-            require('mini.notify').setup()
-        end
-    },
-    {
-        'nvim-mini/mini.tabline',
-        version = false,
-        config = function()
-            local tabline = require('mini.tabline')
-            tabline.setup()
+            require('mini.notify').setup({
+                lsp_progress = { enable = false }
+            })
         end
     },
     {

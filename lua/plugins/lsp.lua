@@ -81,6 +81,13 @@ return {
         -- vim.keymap.set("n", "<leader>xd", vim.diagnostic.setloclist, { desc = "Diagnostics (loclist)" })
         local autocmd = vim.api.nvim_create_autocmd
         local autogroup = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+        -- vim.lsp.handlers["$/progress"] = function() end
+        -- vim.api.nvim_create_autocmd("LspProgress", {
+        --     callback = function()
+        --         -- no-op, but this only helps if YOUR code is what's rendering it
+        --         print("hola")
+        --     end,
+        -- })
 
         autocmd("LspAttach", {
             group = autogroup,
@@ -151,7 +158,5 @@ return {
                 vim.keymap.set("n", "<leader>cp", ":cprev<CR>zz", opts)
             end,
         })
-
-        vim.lsp.handlers["$/progress"] = function() end
     end,
 }
