@@ -1,64 +1,78 @@
-local parsers = {
-	"vimdoc",
-	"javascript",
-	"typescript",
-	"c",
-	"lua",
-	"rust",
-	"jsdoc",
-	"bash",
-	"go",
-	"python",
-	"tsx",
-	"yaml",
-	"terraform",
-	"hcl",
-	"java",
-	"markdown",
-	"markdown_inline",
-}
-
 return {
-	"nvim-treesitter/nvim-treesitter",
-	branch = "main",
-	priority = 1000,
-	lazy = false,
-	build = ":TSUpdate",
+    {
+        "nvim-treesitter/nvim-treesitter",
+        lazy = false,
+        dependencies = {
+            {
 
-	config = function()
-		require("nvim-treesitter").install(parsers)
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                branch = "main",
+                init = function()
+                    -- Disable entire built-in ftplugin mappings to avoid conflicts.
+                    -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+                    vim.g.no_plugin_maps = true
 
-		vim.api.nvim_create_autocmd("FileType", {
-			group = vim.api.nvim_create_augroup("treesitter.setup", {}),
-			callback = function(args)
-				local buf = args.buf
-				local filetype = args.match
+                    -- Or, disable per filetype (add as you like)
+                    -- vim.g.no_python_maps = true
+                    -- vim.g.no_ruby_maps = true
+                    -- vim.g.no_rust_maps = true
+                    -- vim.g.no_go_maps = true
+                end,
 
-				-- skip treesitter for files > 1MB
-				if vim.fn.getfsize(vim.api.nvim_buf_get_name(buf)) > 1024 * 1024 then
-					return
-				end
+            }
+        },
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter-textobjects").setup {}
+            local treesitter = require("nvim-treesitter")
+            treesitter.setup()
+            treesitter.setup()
 
-				-- you need some mechanism to avoid running on buffers that do not
-				-- correspond to a language (like oil.nvim buffers), this implementation
-				-- checks if a parser exists for the current language
-				local language = vim.treesitter.language.get_lang(filetype) or filetype
-				if not vim.treesitter.language.add(language) then
-					return
-				end
+            treesitter.install({
+                "rust",
+                "javascript",
+                "go",
+                "python",
+                "vim",
+                "vimdoc",
+                "yaml",
+                "zsh",
+                "typescript",
+                "toml",
+                "tsx",
+                "tsv",
+                "terraform",
+                "sql",
+                "regex",
+                "html",
+                "css",
+                "json",
+                "bash",
+                "http",
+                "dockerfile",
+            })
+                :wait(300000) -- wait max. 5 minutes    end,
+            local grp = vim.api.nvim_create_augroup("treesitter-group", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                group = grp,
+                pattern = "*",
+                callback = function(args)
+                    local buf = args.buf
+                    local ft = vim.bo[buf].filetype
 
-				-- replicate `fold = { enable = true }`
-				-- vim.wo.foldmethod = 'expr'
-				-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+                    local lang = vim.treesitter.language.get_lang(ft)
+                    if not lang then
+                        return
+                    end
 
-				-- replicate `highlight = { enable = true }`
-				vim.treesitter.start(buf, language)
+                    local ok_add = pcall(vim.treesitter.language.add, lang)
+                    if not ok_add then
+                        return
+                    end
 
-				-- replicate `indent = { enable = true }`
-				vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-
-				-- `incremental_selection = { enable = true }` cannot be easily replicated
-			end,
-		})
-	end,
+                    pcall(vim.treesitter.start, buf, lang)
+                end,
+            })
+        end,
+    },
 }
